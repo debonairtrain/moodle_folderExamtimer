@@ -17,11 +17,11 @@
 /**
  * Content export definition.
  *
- * @package     mod_examtimer
+ * @package     mod_folderexamtimer
  * @copyright   2020 Andrew Nicols <andrew@nicols.co.uk>
  * @license     http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-namespace mod_examtimer\content;
+namespace mod_folderexamtimer\content;
 
 use core\content\export\exportable_items\exportable_filearea;
 use core\content\export\exporters\abstract_mod_exporter;
@@ -35,7 +35,7 @@ use core\content\export\exporters\abstract_mod_exporter;
 class exporter extends abstract_mod_exporter {
 
     /**
-     * Get the exportable items for mod_examtimer.
+     * Get the exportable items for mod_folderexamtimer.
      *
      * @param   bool $includeuserdata Whether to include user data, in addition to shared content.
      * @return  \core\content\export\exportable_item[]
@@ -46,9 +46,9 @@ class exporter extends abstract_mod_exporter {
         $contentitems[]  = new exportable_filearea(
             $this->get_context(),
             $this->get_component(),
-            get_string('examtimercontent', 'mod_examtimer'),
+            get_string('folderexamtimercontent', 'mod_folderexamtimer'),
 
-            // The files held in mod_examtimer are stored in the 'content' filearea, under itemid 0.
+            // The files held in mod_folderexamtimer are stored in the 'content' filearea, under itemid 0.
             'content',
             0,
 

@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * examtimer external API
+ * folderexamtimer external API
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @category   external
  * @copyright  2015 Juan Leyva <juan@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -29,15 +29,15 @@ defined('MOODLE_INTERNAL') || die;
 require_once("$CFG->libdir/externallib.php");
 
 /**
- * examtimer external functions
+ * folderexamtimer external functions
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @category   external
  * @copyright  2015 Juan Leyva <juan@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  * @since      Moodle 3.0
  */
-class mod_examtimer_external extends external_api {
+class mod_folderexamtimer_external extends external_api {
 
     /**
      * Returns description of method parameters
@@ -45,43 +45,43 @@ class mod_examtimer_external extends external_api {
      * @return external_function_parameters
      * @since Moodle 3.0
      */
-    public static function view_examtimer_parameters() {
+    public static function view_folderexamtimer_parameters() {
         return new external_function_parameters(
             array(
-                'examtimerid' => new external_value(PARAM_INT, 'examtimer instance id')
+                'folderexamtimerid' => new external_value(PARAM_INT, 'folderexamtimer instance id')
             )
         );
     }
 
     /**
-     * Simulate the examtimer/view.php web interface page: trigger events, completion, etc...
+     * Simulate the folderexamtimer/view.php web interface page: trigger events, completion, etc...
      *
-     * @param int $examtimerid the examtimer instance id
+     * @param int $folderexamtimerid the folderexamtimer instance id
      * @return array of warnings and status result
      * @since Moodle 3.0
      * @throws moodle_exception
      */
-    public static function view_examtimer($examtimerid) {
+    public static function view_folderexamtimer($folderexamtimerid) {
         global $DB, $CFG;
-        require_once($CFG->dirroot . "/mod/examtimer/lib.php");
+        require_once($CFG->dirroot . "/mod/folderexamtimer/lib.php");
 
-        $params = self::validate_parameters(self::view_examtimer_parameters(),
+        $params = self::validate_parameters(self::view_folderexamtimer_parameters(),
                                             array(
-                                                'examtimerid' => $examtimerid
+                                                'folderexamtimerid' => $folderexamtimerid
                                             ));
         $warnings = array();
 
         // Request and permission validation.
-        $examtimer = $DB->get_record('examtimer', array('id' => $params['examtimerid']), '*', MUST_EXIST);
-        list($course, $cm) = get_course_and_cm_from_instance($examtimer, 'examtimer');
+        $folderexamtimer = $DB->get_record('folderexamtimer', array('id' => $params['folderexamtimerid']), '*', MUST_EXIST);
+        list($course, $cm) = get_course_and_cm_from_instance($folderexamtimer, 'folderexamtimer');
 
         $context = context_module::instance($cm->id);
         self::validate_context($context);
 
-        require_capability('mod/examtimer:view', $context);
+        require_capability('mod/folderexamtimer:view', $context);
 
         // Call the page/lib API.
-        examtimer_view($examtimer, $course, $cm, $context);
+        folderexamtimer_view($folderexamtimer, $course, $cm, $context);
 
         $result = array();
         $result['status'] = true;
@@ -95,7 +95,7 @@ class mod_examtimer_external extends external_api {
      * @return external_description
      * @since Moodle 3.0
      */
-    public static function view_examtimer_returns() {
+    public static function view_folderexamtimer_returns() {
         return new external_single_structure(
             array(
                 'status' => new external_value(PARAM_BOOL, 'status: true if success'),
@@ -105,12 +105,12 @@ class mod_examtimer_external extends external_api {
     }
 
     /**
-     * Describes the parameters for get_examtimers_by_courses.
+     * Describes the parameters for get_folderexamtimers_by_courses.
      *
      * @return external_function_parameters
      * @since Moodle 3.3
      */
-    public static function get_examtimers_by_courses_parameters() {
+    public static function get_folderexamtimers_by_courses_parameters() {
         return new external_function_parameters (
             array(
                 'courseids' => new external_multiple_structure(
@@ -121,22 +121,22 @@ class mod_examtimer_external extends external_api {
     }
 
     /**
-     * Returns a list of examtimers in a provided list of courses.
-     * If no list is provided all examtimers that the user can view will be returned.
+     * Returns a list of folderexamtimers in a provided list of courses.
+     * If no list is provided all folderexamtimers that the user can view will be returned.
      *
      * @param array $courseids course ids
-     * @return array of warnings and examtimers
+     * @return array of warnings and folderexamtimers
      * @since Moodle 3.3
      */
-    public static function get_examtimers_by_courses($courseids = array()) {
+    public static function get_folderexamtimers_by_courses($courseids = array()) {
 
         $warnings = array();
-        $returnedexamtimers = array();
+        $returnedfolderexamtimers = array();
 
         $params = array(
             'courseids' => $courseids,
         );
-        $params = self::validate_parameters(self::get_examtimers_by_courses_parameters(), $params);
+        $params = self::validate_parameters(self::get_folderexamtimers_by_courses_parameters(), $params);
 
         $mycourses = array();
         if (empty($params['courseids'])) {
@@ -149,40 +149,40 @@ class mod_examtimer_external extends external_api {
 
             list($courses, $warnings) = external_util::validate_courses($params['courseids'], $mycourses);
 
-            // Get the examtimers in this course, this function checks users visibility permissions.
+            // Get the folderexamtimers in this course, this function checks users visibility permissions.
             // We can avoid then additional validate_context calls.
-            $examtimers = get_all_instances_in_courses("examtimer", $courses);
-            foreach ($examtimers as $examtimer) {
-                $context = context_module::instance($examtimer->coursemodule);
+            $folderexamtimers = get_all_instances_in_courses("folderexamtimer", $courses);
+            foreach ($folderexamtimers as $folderexamtimer) {
+                $context = context_module::instance($folderexamtimer->coursemodule);
                 // Entry to return.
-                $examtimer->name = external_format_string($examtimer->name, $context->id);
+                $folderexamtimer->name = external_format_string($folderexamtimer->name, $context->id);
 
                 $options = array('noclean' => true);
-                list($examtimer->intro, $examtimer->introformat) =
-                    external_format_text($examtimer->intro, $examtimer->introformat, $context->id, 'mod_examtimer', 'intro', null, $options);
-                $examtimer->introfiles = external_util::get_area_files($context->id, 'mod_examtimer', 'intro', false, false);
+                list($folderexamtimer->intro, $folderexamtimer->introformat) =
+                    external_format_text($folderexamtimer->intro, $folderexamtimer->introformat, $context->id, 'mod_folderexamtimer', 'intro', null, $options);
+                $folderexamtimer->introfiles = external_util::get_area_files($context->id, 'mod_folderexamtimer', 'intro', false, false);
 
-                $returnedexamtimers[] = $examtimer;
+                $returnedfolderexamtimers[] = $folderexamtimer;
             }
         }
 
         $result = array(
-            'examtimers' => $returnedexamtimers,
+            'folderexamtimers' => $returnedfolderexamtimers,
             'warnings' => $warnings
         );
         return $result;
     }
 
     /**
-     * Describes the get_examtimers_by_courses return value.
+     * Describes the get_folderexamtimers_by_courses return value.
      *
      * @return external_single_structure
      * @since Moodle 3.3
      */
-    public static function get_examtimers_by_courses_returns() {
+    public static function get_folderexamtimers_by_courses_returns() {
         return new external_single_structure(
             array(
-                'examtimers' => new external_multiple_structure(
+                'folderexamtimers' => new external_multiple_structure(
                     new external_single_structure(
                         array(
                             'id' => new external_value(PARAM_INT, 'Module id'),
@@ -193,10 +193,10 @@ class mod_examtimer_external extends external_api {
                             'introformat' => new external_format_value('intro', 'Summary format'),
                             'introfiles' => new external_files('Files in the introduction text'),
                             'revision' => new external_value(PARAM_INT, 'Incremented when after each file changes, to avoid cache'),
-                            'timemodified' => new external_value(PARAM_INT, 'Last time the examtimer was modified'),
-                            'display' => new external_value(PARAM_INT, 'Display type of examtimer contents on a separate page or inline'),
-                            'showexpanded' => new external_value(PARAM_INT, '1 = expanded, 0 = collapsed for sub-examtimers'),
-                            'showdownloadexamtimer' => new external_value(PARAM_INT, 'Whether to show the download examtimer button'),
+                            'timemodified' => new external_value(PARAM_INT, 'Last time the folderexamtimer was modified'),
+                            'display' => new external_value(PARAM_INT, 'Display type of folderexamtimer contents on a separate page or inline'),
+                            'showexpanded' => new external_value(PARAM_INT, '1 = expanded, 0 = collapsed for sub-folderexamtimers'),
+                            'showdownloadfolderexamtimer' => new external_value(PARAM_INT, 'Whether to show the download folderexamtimer button'),
                             'section' => new external_value(PARAM_INT, 'Course section id'),
                             'visible' => new external_value(PARAM_INT, 'Module visibility'),
                             'groupmode' => new external_value(PARAM_INT, 'Group mode'),

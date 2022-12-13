@@ -15,21 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_examtimer course module downloaded event.
+ * The mod_folderexamtimer course module downloaded event.
  *
- * @package   mod_examtimer
+ * @package   mod_folderexamtimer
  * @copyright 2015 Andrew Hancox <andrewdchancox@googlemail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_examtimer\event;
+namespace mod_folderexamtimer\event;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The mod_examtimer course module viewed event class.
+ * The mod_folderexamtimer course module viewed event class.
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @since      Moodle 3.1
  * @copyright  2015 Andrew Hancox <andrewdchancox@googlemail.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -44,7 +44,7 @@ class all_files_downloaded extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'r';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
-        $this->data['objecttable'] = 'examtimer';
+        $this->data['objecttable'] = 'folderexamtimer';
     }
 
     /**
@@ -53,7 +53,7 @@ class all_files_downloaded extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' downloaded a zip archive containing all the files from the examtimer activity with " .
+        return "The user with id '$this->userid' downloaded a zip archive containing all the files from the folderexamtimer activity with " .
         "course module id '$this->contextinstanceid'.";
     }
 
@@ -63,7 +63,7 @@ class all_files_downloaded extends \core\event\base {
      * @return string
      */
     public static function get_name() {
-        return get_string('eventallfilesdownloaded', 'examtimer');
+        return get_string('eventallfilesdownloaded', 'folderexamtimer');
     }
 
     /**
@@ -72,7 +72,7 @@ class all_files_downloaded extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url("/mod/examtimer/view.php", array('id' => $this->contextinstanceid));
+        return new \moodle_url("/mod/folderexamtimer/view.php", array('id' => $this->contextinstanceid));
     }
 
     /**

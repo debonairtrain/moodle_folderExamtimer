@@ -17,19 +17,19 @@
 /**
  * Activity base class.
  *
- * @package   mod_examtimer
+ * @package   mod_folderexamtimer
  * @copyright 2017 onwards Ankit Agarwal <ankit.agrr@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_examtimer\analytics\indicator;
+namespace mod_folderexamtimer\analytics\indicator;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
  * Activity base class.
  *
- * @package   mod_examtimer
+ * @package   mod_folderexamtimer
  * @copyright 2017 onwards Ankit Agarwal <ankit.agrr@gmail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

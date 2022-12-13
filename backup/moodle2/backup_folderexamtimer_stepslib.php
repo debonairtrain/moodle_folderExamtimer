@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Define all the backup steps that will be used by the backup_examtimer_activity_task
+ * Define all the backup steps that will be used by the backup_folderexamtimer_activity_task
  *
- * @package   mod_examtimer
+ * @package   mod_folderexamtimer
  * @copyleft 2022 Debonair Training {@link http://debonairtraining.com}
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,9 +27,9 @@
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Define the complete examtimer structure for backup, with file and id annotations
+ * Define the complete folderexamtimer structure for backup, with file and id annotations
  */
-class backup_examtimer_activity_structure_step extends backup_activity_structure_step {
+class backup_folderexamtimer_activity_structure_step extends backup_activity_structure_step {
 
     protected function define_structure() {
 
@@ -37,25 +37,25 @@ class backup_examtimer_activity_structure_step extends backup_activity_structure
         $userinfo = $this->get_setting_value('userinfo');
 
         // Define each element separated
-		// Added columns duedate and completion download for examtimer backup
-        $examtimer = new backup_nested_element('examtimer', array('id'), array(
+		// Added columns duedate and completion download for folderexamtimer backup
+        $folderexamtimer = new backup_nested_element('folderexamtimer', array('id'), array(
             'course','name', 'intro', 'introformat', 'revision',
-            'timemodified', 'duedate', 'completiondownload','display', 'showexpanded', 'showdownloadexamtimer', 'forcedownload'));
+            'timemodified', 'duedate', 'completiondownload','display', 'showexpanded', 'showdownloadfolderexamtimer', 'forcedownload'));
 
         // Build the tree
         // (nice mono-tree, lol)
 
         // Define sources
-        $examtimer->set_source_table('examtimer', array('id' => backup::VAR_ACTIVITYID));
+        $folderexamtimer->set_source_table('folderexamtimer', array('id' => backup::VAR_ACTIVITYID));
 
         // Define id annotations
         // (none)
 
         // Define file annotations
-        $examtimer->annotate_files('mod_examtimer', 'intro', null);
-        $examtimer->annotate_files('mod_examtimer', 'content', null);
+        $folderexamtimer->annotate_files('mod_folderexamtimer', 'intro', null);
+        $folderexamtimer->annotate_files('mod_folderexamtimer', 'content', null);
 
-        // Return the root element (examtimer), wrapped into standard activity structure
-        return $this->prepare_activity_structure($examtimer);
+        // Return the root element (folderexamtimer), wrapped into standard activity structure
+        return $this->prepare_activity_structure($folderexamtimer);
     }
 }

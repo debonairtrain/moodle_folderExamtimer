@@ -28,4 +28,3 @@ This module is intended for distribution of large number of documents.
 TODO:
  * reimplement portfolio support (MDL-20070)
  * new backup/restore and old restore transformation (MDL-20072)
-

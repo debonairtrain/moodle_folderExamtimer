@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Examtimer download
+ * folderexamtimer download
  *
- * @package   mod_examtimer
+ * @package   mod_folderexamtimer
  * @copyright 2015 Andrew Hancox <andrewdchancox@googlemail.com>
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -25,31 +25,31 @@
 require_once(__DIR__ . "/../../config.php");
 
 $id = required_param('id', PARAM_INT);  // Course module ID.
-$cm = get_coursemodule_from_id('examtimer', $id, 0, true, MUST_EXIST);
+$cm = get_coursemodule_from_id('folderexamtimer', $id, 0, true, MUST_EXIST);
 
 $course = $DB->get_record('course', array('id' => $cm->course), '*', MUST_EXIST);
 
 require_course_login($course, true, $cm);
 $context = context_module::instance($cm->id);
-require_capability('mod/examtimer:view', $context);
+require_capability('mod/folderexamtimer:view', $context);
 
-$examtimer = $DB->get_record('examtimer', array('id' => $cm->instance), '*', MUST_EXIST);
+$folderexamtimer = $DB->get_record('folderexamtimer', array('id' => $cm->instance), '*', MUST_EXIST);
 
-$downloadable = examtimer_archive_available($examtimer, $cm);
+$downloadable = folderexamtimer_archive_available($folderexamtimer, $cm);
 if (!$downloadable) {
     print_error('cannotdownloaddir', 'repository');
 }
 
-examtimer_downloaded($examtimer, $course, $cm, $context);
+folderexamtimer_downloaded($folderexamtimer, $course, $cm, $context);
 
 $fs = get_file_storage();
-$file = $fs->get_file($context->id, 'mod_examtimer', 'content', 0, '/', '.');
+$file = $fs->get_file($context->id, 'mod_folderexamtimer', 'content', 0, '/', '.');
 if (!$file) {
     print_error('cannotdownloaddir', 'repository');
 }
 
 $zipper   = get_file_packer('application/zip');
-$filename = shorten_filename(clean_filename($examtimer->name . "-" . date("Ymd")) . ".zip");
+$filename = shorten_filename(clean_filename($folderexamtimer->name . "-" . date("Ymd")) . ".zip");
 $temppath = make_request_directory() . $filename;
 
 if ($zipper->archive_to_pathname(array('/' => $file), $temppath)) {

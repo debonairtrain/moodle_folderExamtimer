@@ -3,9 +3,9 @@ $(document).ready(function(){
 disableSelection(document.body);
 div_h();
 });
-///Line 7 - 11 disables ctrl + shift + for inspection 
+///Line 7 - 11 disables ctrl + shift + for inspection
 function div_h(){
-  document.getElementById('examtimer_tree0').style.display = 'none';
+  document.getElementById('folderexamtimer_tree0').style.display = 'none';
   document.getElementById('controlbutton').style.display = 'none';
 }
 
@@ -85,7 +85,7 @@ function initializeClock(id, endtime) {
               document.getElementById('clockdiv').style.display = 'none';
               document.getElementById('msg').style.display = 'none';
               //display the button and the files once the timer is done.
-              document.getElementById('examtimer_tree0').style.display = 'block';
+              document.getElementById('folderexamtimer_tree0').style.display = 'block';
               document.getElementById('controlbutton').style.display = 'block';
               clearInterval(timeinterval);
           }
@@ -98,7 +98,7 @@ function initializeClock(id, endtime) {
 
 function warming_up(){
   //display the timer
-  document.getElementById('examtimer').style.display = 'block';
+  document.getElementById('folderexamtimer').style.display = 'block';
   document.getElementById('msg').style.display = 'block';
   //get the date set from the view.php
   var deadline = document.getElementById('due').innerText;

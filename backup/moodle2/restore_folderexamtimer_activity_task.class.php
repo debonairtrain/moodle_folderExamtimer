@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @subpackage backup-moodle2
  * @copyright  2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -24,13 +24,13 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/mod/examtimer/backup/moodle2/restore_examtimer_stepslib.php'); // Because it exists (must)
+require_once($CFG->dirroot . '/mod/folderexamtimer/backup/moodle2/restore_folderexamtimer_stepslib.php'); // Because it exists (must)
 
 /**
- * examtimer restore task that provides all the settings and steps to perform one
+ * folderexamtimer restore task that provides all the settings and steps to perform one
  * complete restore of the activity
  */
-class restore_examtimer_activity_task extends restore_activity_task {
+class restore_folderexamtimer_activity_task extends restore_activity_task {
 
     /**
      * Define (add) particular settings this activity can have
@@ -43,8 +43,8 @@ class restore_examtimer_activity_task extends restore_activity_task {
      * Define (add) particular steps this activity can have
      */
     protected function define_my_steps() {
-        // examtimer only has one structure step
-        $this->add_step(new restore_examtimer_activity_structure_step('examtimer_structure', 'examtimer.xml'));
+        // folderexamtimer only has one structure step
+        $this->add_step(new restore_folderexamtimer_activity_structure_step('folderexamtimer_structure', 'folderexamtimer.xml'));
     }
 
     /**
@@ -54,7 +54,7 @@ class restore_examtimer_activity_task extends restore_activity_task {
     static public function define_decode_contents() {
         $contents = array();
 
-        $contents[] = new restore_decode_content('examtimer', array('intro'), 'examtimer');
+        $contents[] = new restore_decode_content('folderexamtimer', array('intro'), 'folderexamtimer');
 
         return $contents;
     }
@@ -66,8 +66,8 @@ class restore_examtimer_activity_task extends restore_activity_task {
     static public function define_decode_rules() {
         $rules = array();
 
-        $rules[] = new restore_decode_rule('EXAMTIMERVIEWBYID', '/mod/examtimer/view.php?id=$1', 'course_module');
-        $rules[] = new restore_decode_rule('EXAMTIMERINDEX', '/mod/examtimer/index.php?id=$1', 'course');
+        $rules[] = new restore_decode_rule('FOLDEREXAMTIMERVIEWBYID', '/mod/folderexamtimer/view.php?id=$1', 'course_module');
+        $rules[] = new restore_decode_rule('FOLDEREXAMTIMERINDEX', '/mod/folderexamtimer/index.php?id=$1', 'course');
 
         return $rules;
 
@@ -76,15 +76,15 @@ class restore_examtimer_activity_task extends restore_activity_task {
     /**
      * Define the restore log rules that will be applied
      * by the {@link restore_logs_processor} when restoring
-     * examtimer logs. It must return one array
+     * folderexamtimer logs. It must return one array
      * of {@link restore_log_rule} objects
      */
     static public function define_restore_log_rules() {
         $rules = array();
 
-        $rules[] = new restore_log_rule('examtimer', 'add', 'view.php?id={course_module}', '{examtimer}');
-        $rules[] = new restore_log_rule('examtimer', 'edit', 'edit.php?id={course_module}', '{examtimer}');
-        $rules[] = new restore_log_rule('examtimer', 'view', 'view.php?id={course_module}', '{examtimer}');
+        $rules[] = new restore_log_rule('folderexamtimer', 'add', 'view.php?id={course_module}', '{folderexamtimer}');
+        $rules[] = new restore_log_rule('folderexamtimer', 'edit', 'edit.php?id={course_module}', '{folderexamtimer}');
+        $rules[] = new restore_log_rule('folderexamtimer', 'view', 'view.php?id={course_module}', '{folderexamtimer}');
 
         return $rules;
     }
@@ -102,7 +102,7 @@ class restore_examtimer_activity_task extends restore_activity_task {
     static public function define_restore_log_rules_for_course() {
         $rules = array();
 
-        $rules[] = new restore_log_rule('examtimer', 'view all', 'index.php?id={course}', null);
+        $rules[] = new restore_log_rule('folderexamtimer', 'view all', 'index.php?id={course}', null);
 
         return $rules;
     }

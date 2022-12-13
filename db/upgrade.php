@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Examtimer module upgrade code
+ * folderexamtimer module upgrade code
  *
  * This file keeps track of upgrades to
  * the resource module
@@ -37,14 +37,14 @@
  * Please do not forget to use upgrade_set_timeout()
  * before any action that may take longer time to finish.
  *
- * @package   mod_examtimer
+ * @package   mod_folderexamtimer
  * @copyright 2009 Petr Skoda  {@link http://skodak.org}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-function xmldb_examtimer_upgrade($oldversion) {
+function xmldb_folderexamtimer_upgrade($oldversion) {
     global $CFG, $DB;
 
     $dbman = $DB->get_manager(); // Loads ddl manager and xmldb classes.
@@ -65,17 +65,17 @@ function xmldb_examtimer_upgrade($oldversion) {
     // Put any upgrade step following this.
     if ($oldversion < 2020061501) {
 
-        // Define field forcedownload to be added to examtimer.
-        $table = new xmldb_table('examtimer');
-        $field = new xmldb_field('forcedownload', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1', 'showdownloadexamtimer');
+        // Define field forcedownload to be added to folderexamtimer.
+        $table = new xmldb_table('folderexamtimer');
+        $field = new xmldb_field('forcedownload', XMLDB_TYPE_INTEGER, '1', null, XMLDB_NOTNULL, null, '1', 'showdownloadfolderexamtimer');
 
         // Conditionally launch add field forcedownload.
         if (!$dbman->field_exists($table, $field)) {
             $dbman->add_field($table, $field);
         }
 
-        // Examtimer savepoint reached.
-        upgrade_mod_savepoint(true, 2020061501, 'examtimer');
+        // folderexamtimer savepoint reached.
+        upgrade_mod_savepoint(true, 2020061501, 'folderexamtimer');
     }
 
     return true;

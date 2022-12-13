@@ -16,16 +16,16 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Private examtimer module utility functions
+ * Private folderexamtimer module utility functions
  *
- * @package   mod_examtimer
+ * @package   mod_folderexamtimer
  * @copyright 2009 Petr Skoda  {@link http://skodak.org}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once("$CFG->dirroot/mod/examtimer/lib.php");
+require_once("$CFG->dirroot/mod/folderexamtimer/lib.php");
 require_once("$CFG->libdir/filelib.php");
 require_once($CFG->libdir . '/accesslib.php');
 require_once($CFG->libdir . '/formslib.php');
@@ -33,7 +33,7 @@ require_once($CFG->dirroot . '/repository/lib.php');
 /**
  * File browsing support class
  */
-class examtimer_content_file_info extends file_info_stored {
+class folderexamtimer_content_file_info extends file_info_stored {
     public function get_parent() {
         if ($this->lf->get_filepath() === '/' and $this->lf->get_filename() === '.') {
             return $this->browser->get_file_info($this->context);

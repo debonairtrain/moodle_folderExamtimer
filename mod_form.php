@@ -16,7 +16,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Manage files in examtimer module instance
+ * Manage files in folderexamtimer module instance
  *
  * @package   mod form
  * @copyleft 2022 Debonair Training {@link http://debonairtraining.com}
@@ -29,12 +29,12 @@ require_once($CFG->dirroot . '/mod/assign/locallib.php');
 
 require_once ($CFG->dirroot.'/course/moodleform_mod.php');
 
-class mod_examtimer_mod_form extends moodleform_mod {
+class mod_folderexamtimer_mod_form extends moodleform_mod {
     function definition() {
         global $CFG;
         $mform = $this->_form;
 
-        $config = get_config('examtimer');
+        $config = get_config('folderexamtimer');
 
         //-------------------------------------------------------
         $mform->addElement('header', 'general', get_string('general', 'form'));
@@ -49,36 +49,36 @@ class mod_examtimer_mod_form extends moodleform_mod {
         $this->standard_intro_elements();
 
 // Due date added for the countdown timer
-        $name = get_string('duedate', 'mod_examtimer');
+        $name = get_string('duedate', 'mod_folderexamtimer');
         $mform->addElement('date_time_selector', 'duedate', $name, array('optional'=>true));
-        $mform->addHelpButton('duedate', 'duedate', 'mod_examtimer');
+        $mform->addHelpButton('duedate', 'duedate', 'mod_folderexamtimer');
 
         //-------------------------------------------------------
-        $mform->addElement('header', 'content', get_string('contentheader', 'examtimer'));
+        $mform->addElement('header', 'content', get_string('contentheader', 'folderexamtimer'));
         $mform->addElement('filemanager', 'files', get_string('files'), null, array('subdirs'=>1, 'accepted_types'=>'*'));
-        $mform->addElement('select', 'display', get_string('display', 'mod_examtimer'),
-                array(EXAMTIMER_DISPLAY_PAGE => get_string('displaypage', 'mod_examtimer'),
-                    EXAMTIMER_DISPLAY_INLINE => get_string('displayinline', 'mod_examtimer')));
-        $mform->addHelpButton('display', 'display', 'mod_examtimer');
+        $mform->addElement('select', 'display', get_string('display', 'mod_folderexamtimer'),
+                array(FOLDEREXAMTIMER_DISPLAY_PAGE => get_string('displaypage', 'mod_folderexamtimer'),
+                    FOLDEREXAMTIMER_DISPLAY_INLINE => get_string('displayinline', 'mod_folderexamtimer')));
+        $mform->addHelpButton('display', 'display', 'mod_folderexamtimer');
         if (!$this->courseformat->has_view_page()) {
-            $mform->setConstant('display', EXAMTIMER_DISPLAY_PAGE);
+            $mform->setConstant('display', FOLDEREXAMTIMER_DISPLAY_PAGE);
             $mform->hardFreeze('display');
         }
         $mform->setExpanded('content');
 
-        // Adding option to show sub-examtimers expanded or collapsed by default.
-        $mform->addElement('advcheckbox', 'showexpanded', get_string('showexpanded', 'examtimer'));
-        $mform->addHelpButton('showexpanded', 'showexpanded', 'mod_examtimer');
+        // Adding option to show sub-folderexamtimers expanded or collapsed by default.
+        $mform->addElement('advcheckbox', 'showexpanded', get_string('showexpanded', 'folderexamtimer'));
+        $mform->addHelpButton('showexpanded', 'showexpanded', 'mod_folderexamtimer');
         $mform->setDefault('showexpanded', $config->showexpanded);
 
-        // Adding option to enable downloading archive of examtimer.
-        $mform->addElement('advcheckbox', 'showdownloadexamtimer', get_string('showdownloadexamtimer', 'examtimer'));
-        $mform->addHelpButton('showdownloadexamtimer', 'showdownloadexamtimer', 'mod_examtimer');
-        $mform->setDefault('showdownloadexamtimer', true);
+        // Adding option to enable downloading archive of folderexamtimer.
+        $mform->addElement('advcheckbox', 'showdownloadfolderexamtimer', get_string('showdownloadfolderexamtimer', 'folderexamtimer'));
+        $mform->addHelpButton('showdownloadfolderexamtimer', 'showdownloadfolderexamtimer', 'mod_folderexamtimer');
+        $mform->setDefault('showdownloadfolderexamtimer', true);
 
         // Adding option to enable viewing of individual files.
-        $mform->addElement('advcheckbox', 'forcedownload', get_string('forcedownload', 'examtimer'));
-        $mform->addHelpButton('forcedownload', 'forcedownload', 'mod_examtimer');
+        $mform->addElement('advcheckbox', 'forcedownload', get_string('forcedownload', 'folderexamtimer'));
+        $mform->addHelpButton('forcedownload', 'forcedownload', 'mod_folderexamtimer');
         $mform->setDefault('forcedownload', true);
 
         //-------------------------------------------------------
@@ -97,7 +97,7 @@ class mod_examtimer_mod_form extends moodleform_mod {
         if ($this->current->instance) {
             // editing existing instance - copy existing files into draft area
             $draftitemid = file_get_submitted_draft_itemid('files');
-            file_prepare_draft_area($draftitemid, $this->context->id, 'mod_examtimer', 'content', 0, array('subdirs'=>true));
+            file_prepare_draft_area($draftitemid, $this->context->id, 'mod_folderexamtimer', 'content', 0, array('subdirs'=>true));
             $default_values['files'] = $draftitemid;
         }
 		// Process download activity completion
@@ -117,8 +117,8 @@ class mod_examtimer_mod_form extends moodleform_mod {
                 array_key_exists('completion', $data) &&
                 $data['completion'] == COMPLETION_TRACKING_AUTOMATIC &&
                 !empty($data['completionview']) &&
-                $data['display'] == EXAMTIMER_DISPLAY_INLINE) {
-            $errors['completion'] = get_string('noautocompletioninline', 'mod_examtimer');
+                $data['display'] == FOLDEREXAMTIMER_DISPLAY_INLINE) {
+            $errors['completion'] = get_string('noautocompletioninline', 'mod_folderexamtimer');
         }
 
         return $errors;
@@ -135,7 +135,7 @@ class mod_examtimer_mod_form extends moodleform_mod {
 public function add_completion_rules() {
     $mform =& $this->_form;
 
-    $mform->addElement('advcheckbox', 'completiondownload', '', get_string('completiondownload', 'mod_examtimer'));
+    $mform->addElement('advcheckbox', 'completiondownload', '', get_string('completiondownload', 'mod_folderexamtimer'));
     $mform->setType('completiondownload', PARAM_INT);
     $mform->setDefault('completiondownload', 1);
     return array('completiondownload');

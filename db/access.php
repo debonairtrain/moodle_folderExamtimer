@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Capability definitions for the examtimer module.
+ * Capability definitions for the folderexamtimer module.
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @copyright  2009 Petr Skoda  {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -26,7 +26,7 @@ defined('MOODLE_INTERNAL') || die();
 
 $capabilities = array(
 
-    'mod/examtimer:addinstance' => array(
+    'mod/folderexamtimer:addinstance' => array(
         'riskbitmask' => RISK_XSS,
 
         'captype' => 'write',
@@ -38,7 +38,7 @@ $capabilities = array(
         'clonepermissionsfrom' => 'moodle/course:manageactivities'
     ),
 
-    'mod/examtimer:view' => array(
+    'mod/folderexamtimer:view' => array(
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
         'archetypes' => array(
@@ -48,7 +48,7 @@ $capabilities = array(
     ),
 
 /* TODO: review public portfolio API first!
-    'mod/examtimer:portfolioexport' => array(
+    'mod/folderexamtimer:portfolioexport' => array(
 
         'captype' => 'read',
         'contextlevel' => CONTEXT_MODULE,
@@ -58,8 +58,8 @@ $capabilities = array(
         )
     ),*/
 
-    // Can manage files in the examtimer.
-    'mod/examtimer:managefiles' => array(
+    // Can manage files in the folderexamtimer.
+    'mod/folderexamtimer:managefiles' => array(
         'riskbitmask' => RISK_SPAM | RISK_XSS,
         'captype' => 'write',
         'contextlevel' => CONTEXT_MODULE,

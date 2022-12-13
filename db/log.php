@@ -18,7 +18,7 @@
 /**
  * Definition of log events
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @category   log
  * @copyright  2010 Petr Skoda (http://skodak.org)
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -27,8 +27,8 @@
 defined('MOODLE_INTERNAL') || die();
 
 $logs = array(
-    array('module'=>'examtimer', 'action'=>'view', 'mtable'=>'examtimer', 'field'=>'name'),
-    array('module'=>'examtimer', 'action'=>'view all', 'mtable'=>'examtimer', 'field'=>'name'),
-    array('module'=>'examtimer', 'action'=>'update', 'mtable'=>'examtimer', 'field'=>'name'),
-    array('module'=>'examtimer', 'action'=>'add', 'mtable'=>'examtimer', 'field'=>'name'),
+    array('module'=>'folderexamtimer', 'action'=>'view', 'mtable'=>'folderexamtimer', 'field'=>'name'),
+    array('module'=>'folderexamtimer', 'action'=>'view all', 'mtable'=>'folderexamtimer', 'field'=>'name'),
+    array('module'=>'folderexamtimer', 'action'=>'update', 'mtable'=>'folderexamtimer', 'field'=>'name'),
+    array('module'=>'folderexamtimer', 'action'=>'add', 'mtable'=>'folderexamtimer', 'field'=>'name'),
 );

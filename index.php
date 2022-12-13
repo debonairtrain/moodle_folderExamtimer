@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * List of file examtimers in course
+ * List of file folderexamtimers in course
  *
- * @package   mod_examtimer
+ * @package   mod_folderexamtimer
  * @copyright 2009 onwards Martin Dougiamas (http://dougiamas.com)
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -35,25 +35,25 @@ $PAGE->set_pagelayout('incourse');
 $params = array(
     'context' => context_course::instance($course->id)
 );
-$event = \mod_examtimer\event\course_module_instance_list_viewed::create($params);
+$event = \mod_folderexamtimer\event\course_module_instance_list_viewed::create($params);
 $event->add_record_snapshot('course', $course);
 $event->trigger();
 
-$strexamtimer       = get_string('modulename', 'examtimer');
-$strexamtimers      = get_string('modulenameplural', 'examtimer');
+$strfolderexamtimer       = get_string('modulename', 'folderexamtimer');
+$strfolderexamtimers      = get_string('modulenameplural', 'folderexamtimer');
 $strname         = get_string('name');
 $strintro        = get_string('moduleintro');
 $strlastmodified = get_string('lastmodified');
 
-$PAGE->set_url('/mod/examtimer/index.php', array('id' => $course->id));
-$PAGE->set_title($course->shortname.': '.$strexamtimers);
+$PAGE->set_url('/mod/folderexamtimer/index.php', array('id' => $course->id));
+$PAGE->set_title($course->shortname.': '.$strfolderexamtimers);
 $PAGE->set_heading($course->fullname);
-$PAGE->navbar->add($strexamtimers);
+$PAGE->navbar->add($strfolderexamtimers);
 echo $OUTPUT->header();
-echo $OUTPUT->heading($strexamtimers);
+echo $OUTPUT->heading($strfolderexamtimers);
 
-if (!$examtimers = get_all_instances_in_course('examtimer', $course)) {
-    notice(get_string('thereareno', 'moodle', $strexamtimers), "$CFG->wwwroot/course/view.php?id=$course->id");
+if (!$folderexamtimers = get_all_instances_in_course('folderexamtimer', $course)) {
+    notice(get_string('thereareno', 'moodle', $strfolderexamtimers), "$CFG->wwwroot/course/view.php?id=$course->id");
     exit;
 }
 
@@ -73,28 +73,28 @@ if ($usesections) {
 
 $modinfo = get_fast_modinfo($course);
 $currentsection = '';
-foreach ($examtimers as $examtimer) {
-    $cm = $modinfo->cms[$examtimer->coursemodule];
+foreach ($folderexamtimers as $folderexamtimer) {
+    $cm = $modinfo->cms[$folderexamtimer->coursemodule];
     if ($usesections) {
         $printsection = '';
-        if ($examtimer->section !== $currentsection) {
-            if ($examtimer->section) {
-                $printsection = get_section_name($course, $examtimer->section);
+        if ($folderexamtimer->section !== $currentsection) {
+            if ($folderexamtimer->section) {
+                $printsection = get_section_name($course, $folderexamtimer->section);
             }
             if ($currentsection !== '') {
                 $table->data[] = 'hr';
             }
-            $currentsection = $examtimer->section;
+            $currentsection = $folderexamtimer->section;
         }
     } else {
-        $printsection = '<span class="smallinfo">'.userdate($examtimer->timemodified)."</span>";
+        $printsection = '<span class="smallinfo">'.userdate($folderexamtimer->timemodified)."</span>";
     }
 
-    $class = $examtimer->visible ? '' : 'class="dimmed"'; // hidden modules are dimmed
+    $class = $folderexamtimer->visible ? '' : 'class="dimmed"'; // hidden modules are dimmed
     $table->data[] = array (
         $printsection,
-        "<a $class href=\"view.php?id=$cm->id\">".format_string($examtimer->name)."</a>",
-        format_module_intro('examtimer', $examtimer, $cm->id));
+        "<a $class href=\"view.php?id=$cm->id\">".format_string($folderexamtimer->name)."</a>",
+        format_module_intro('folderexamtimer', $folderexamtimer, $cm->id));
 }
 
 public function timer_setting() {
@@ -110,7 +110,7 @@ public function timer_setting() {
                'minutes' => $minutes,
                'seconds' => $seconds
              ];
-             echo $OUTPUT->render_from_template('mod_examtimer/timer', $templatecon);
+             echo $OUTPUT->render_from_template('mod_folderexamtimer/timer', $templatecon);
 }
 
 echo html_writer::table($table);

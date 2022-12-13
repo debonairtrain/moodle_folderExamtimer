@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Manage files in examtimer module instance
+ * Manage files in folderexamtimer module instance
  *
  * @package   Get time
  * @copyleft 2022 Debonair Training {@link http://debonairtraining.com}
@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-class mod_examtimer_renderer extends plugin_renderer_base {
+class mod_folderexamtimer_renderer extends plugin_renderer_base {
 
     /** @var string $timenow contains a timestamp in string format. */
     public $timenow;
@@ -45,7 +45,7 @@ class mod_examtimer_renderer extends plugin_renderer_base {
         }
 
 
-        return $this->output->render_from_template('mod_examtimer/timer', (object)[]);
+        return $this->output->render_from_template('mod_folderexamtimer/timer', (object)[]);
     }
 
     /**
@@ -62,18 +62,18 @@ class mod_examtimer_renderer extends plugin_renderer_base {
 
 
     /**
-     * Returns html to display the content of mod_examtimer
-     * (Description, examtimer files and optionally Edit button)
+     * Returns html to display the content of mod_folderexamtimer
+     * (Description, folderexamtimer files and optionally Edit button)
      *
-     * @param stdClass $examtimer record from 'examtimer' table (please note
+     * @param stdClass $folderexamtimer record from 'folderexamtimer' table (please note
      *     it may not contain fields 'revision' and 'timemodified')
      * @return string
      */
-    public function display_examtimer(stdClass $examtimer) {
+    public function display_folderexamtimer(stdClass $folderexamtimer) {
         $output = '';
-        $examtimerinstances = get_fast_modinfo($examtimer->course)->get_instances_of('examtimer');
-        if (!isset($examtimerinstances[$examtimer->id]) ||
-                !($cm = $examtimerinstances[$examtimer->id]) ||
+        $folderexamtimerinstances = get_fast_modinfo($folderexamtimer->course)->get_instances_of('folderexamtimer');
+        if (!isset($folderexamtimerinstances[$folderexamtimer->id]) ||
+                !($cm = $folderexamtimerinstances[$folderexamtimer->id]) ||
                 !($context = context_module::instance($cm->id))) {
             // Some error in parameters.
             // Don't throw any errors in renderer, just return empty string.
@@ -81,61 +81,61 @@ class mod_examtimer_renderer extends plugin_renderer_base {
             return $output;
         }
 
-        if (trim($examtimer->intro)) {
-            if ($examtimer->display != EXAMTIMER_DISPLAY_INLINE) {
-                $output .= $this->output->box(format_module_intro('examtimer', $examtimer, $cm->id),
+        if (trim($folderexamtimer->intro)) {
+            if ($folderexamtimer->display != FOLDEREXAMTIMER_DISPLAY_INLINE) {
+                $output .= $this->output->box(format_module_intro('folderexamtimer', $folderexamtimer, $cm->id),
                         'generalbox', 'intro');
             } else if ($cm->showdescription) {
                 // for "display inline" do not filter, filters run at display time.
-                $output .= format_module_intro('examtimer', $examtimer, $cm->id, false);
+                $output .= format_module_intro('folderexamtimer', $folderexamtimer, $cm->id, false);
             }
         }
 
-        $examtimertree = new examtimer_tree($examtimer, $cm);
-        if ($examtimer->display == EXAMTIMER_DISPLAY_INLINE) {
+        $folderexamtimertree = new folderexamtimer_tree($folderexamtimer, $cm);
+        if ($folderexamtimer->display == FOLDEREXAMTIMER_DISPLAY_INLINE) {
             // Display module name as the name of the root directory.
-            $examtimertree->dir['dirname'] = $cm->get_formatted_name(array('escape' => false));
+            $folderexamtimertree->dir['dirname'] = $cm->get_formatted_name(array('escape' => false));
         }
 
 
     $context = context_module::instance($cm->id);
-    if (has_capability('mod/examtimer:managefiles', $context)) {
+    if (has_capability('mod/folderexamtimer:managefiles', $context)) {
 
 //Display files to only logged in user who has capability
-        $output .= $this->output->render_from_template('mod_examtimer/timer', (object)[]);
+        $output .= $this->output->render_from_template('mod_folderexamtimer/timer', (object)[]);
 
     }else{
-        $output .= $this->output->render_from_template('mod_examtimer/timerstudent', (object)[]);
+        $output .= $this->output->render_from_template('mod_folderexamtimer/timerstudent', (object)[]);
 
     }
 
         //$output .= "testing testing";
-        $output .= $this->output->container_start("box generalbox pt-0 pb-3 examtimertree");
+        $output .= $this->output->container_start("box generalbox pt-0 pb-3 folderexamtimertree");
 
-        $output .= $this->render($examtimertree);
+        $output .= $this->render($folderexamtimertree);
         $output .= $this->output->container_end();
 
         // Do not append the edit button on the course page.
-        $downloadable = examtimer_archive_available($examtimer, $cm);
+        $downloadable = folderexamtimer_archive_available($folderexamtimer, $cm);
 
         $buttons = '';
         if ($downloadable) {
             $downloadbutton = $this->output->single_button(
-                new moodle_url('/mod/examtimer/download_examtimer.php', array('id' => $cm->id)),
-                get_string('downloadexamtimer', 'examtimer')
+                new moodle_url('/mod/folderexamtimer/download_folderexamtimer.php', array('id' => $cm->id)),
+                get_string('downloadfolderexamtimer', 'folderexamtimer')
             );
 
             $buttons .= $downloadbutton;
         }
 
-        // Display the "Edit" button if current user can edit examtimer contents.
+        // Display the "Edit" button if current user can edit folderexamtimer contents.
         // Do not display it on the course page for the teachers because there
         // is an "Edit settings" button right next to it with the same functionality.
-        if (has_capability('mod/examtimer:managefiles', $context) &&
-            ($examtimer->display != EXAMTIMER_DISPLAY_INLINE || !has_capability('moodle/course:manageactivities', $context))) {
+        if (has_capability('mod/folderexamtimer:managefiles', $context) &&
+            ($folderexamtimer->display != FOLDEREXAMTIMER_DISPLAY_INLINE || !has_capability('moodle/course:manageactivities', $context))) {
 
                 $editbutton = $this->output->single_button(
-                new moodle_url('/mod/examtimer/edit.php', array('id' => $cm->id)),
+                new moodle_url('/mod/folderexamtimer/edit.php', array('id' => $cm->id)),
                 get_string('edit')
             );
 
@@ -144,7 +144,7 @@ class mod_examtimer_renderer extends plugin_renderer_base {
 
       if ($buttons) {
             $output .= '<div id="controlbutton" style="display:none">';
-            $output .= $this->output->container_start("box generalbox pt-0 pb-3 examtimerbuttons");
+            $output .= $this->output->container_start("box generalbox pt-0 pb-3 folderexamtimerbuttons");
             $output .= $buttons;
             $output .= $this->output->container_end();
             $output .= '</div>';
@@ -156,19 +156,19 @@ class mod_examtimer_renderer extends plugin_renderer_base {
     }
 
 
-    public function render_examtimer_tree(examtimer_tree $tree) {
+    public function render_folderexamtimer_tree(folderexamtimer_tree $tree) {
         static $treecounter = 0;
 
         $content = '';
-        $id = 'examtimer_tree'. ($treecounter++);
+        $id = 'folderexamtimer_tree'. ($treecounter++);
         $content .= '<div id="'.$id.'" class="filemanager" style="display:none;">';
         $content .= $this->htmllize_tree($tree, array('files' => array(), 'subdirs' => array($tree->dir)));
         $content .= '</div>';
         $showexpanded = true;
-        if (empty($tree->examtimer->showexpanded)) {
+        if (empty($tree->folderexamtimer->showexpanded)) {
             $showexpanded = false;
         }
-        $this->page->requires->js_init_call('M.mod_examtimer.init_tree', array($id, $showexpanded));
+        $this->page->requires->js_init_call('M.mod_folderexamtimer.init_tree', array($id, $showexpanded));
         return $content;
     }
 
@@ -192,7 +192,7 @@ class mod_examtimer_renderer extends plugin_renderer_base {
 
 // If the user logged in has capability the link will work else the link will be false and reload page
         $context = context_module::instance($cm->id);
-        if (has_capability('mod/examtimer:managefiles', $context)) {
+        if (has_capability('mod/folderexamtimer:managefiles', $context)) {
 
              $url=$url;
         }else{
@@ -221,7 +221,7 @@ class mod_examtimer_renderer extends plugin_renderer_base {
             $filename = html_writer::tag('span', $image, array('class' => 'fp-icon')).
                     html_writer::tag('span', $filenamedisplay, array('class' => 'fp-filename'));
             $urlparams = null;
-            if ($tree->examtimer->forcedownload) {
+            if ($tree->folderexamtimer->forcedownload) {
                 $urlparams = ['forcedownload' => 1];
             }
 
@@ -242,18 +242,18 @@ class mod_examtimer_renderer extends plugin_renderer_base {
 
 }
 
-class examtimer_tree implements renderable {
+class folderexamtimer_tree implements renderable {
     public $context;
-    public $examtimer;
+    public $folderexamtimer;
     public $cm;
     public $dir;
 
-    public function __construct($examtimer, $cm) {
-        $this->examtimer = $examtimer;
+    public function __construct($folderexamtimer, $cm) {
+        $this->folderexamtimer = $folderexamtimer;
         $this->cm     = $cm;
 
         $this->context = context_module::instance($cm->id);
         $fs = get_file_storage();
-        $this->dir = $fs->get_area_tree($this->context->id, 'mod_examtimer', 'content', 0);
+        $this->dir = $fs->get_area_tree($this->context->id, 'mod_folderexamtimer', 'content', 0);
     }
 }

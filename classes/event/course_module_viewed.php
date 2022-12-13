@@ -15,21 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_examtimer course module viewed event.
+ * The mod_folderexamtimer course module viewed event.
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @copyright  2013 Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_examtimer\event;
+namespace mod_folderexamtimer\event;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The mod_examtimer course module viewed event class.
+ * The mod_folderexamtimer course module viewed event class.
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @since      Moodle 2.7
  * @copyright  2013 Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -42,10 +42,10 @@ class course_module_viewed extends \core\event\course_module_viewed {
     protected function init() {
         $this->data['crud'] = 'r';
         $this->data['edulevel'] = self::LEVEL_PARTICIPATING;
-        $this->data['objecttable'] = 'examtimer';
+        $this->data['objecttable'] = 'folderexamtimer';
     }
 
     public static function get_objectid_mapping() {
-        return array('db' => 'examtimer', 'restore' => 'examtimer');
+        return array('db' => 'folderexamtimer', 'restore' => 'folderexamtimer');
     }
 }

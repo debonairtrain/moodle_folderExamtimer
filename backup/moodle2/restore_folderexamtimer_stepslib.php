@@ -16,31 +16,31 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @subpackage backup-moodle2
  * @copyright  2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 /**
- * Define all the restore steps that will be used by the restore_examtimer_activity_task
+ * Define all the restore steps that will be used by the restore_folderexamtimer_activity_task
  */
 
 /**
- * Structure step to restore one examtimer activity
+ * Structure step to restore one folderexamtimer activity
  */
-class restore_examtimer_activity_structure_step extends restore_activity_structure_step {
+class restore_folderexamtimer_activity_structure_step extends restore_activity_structure_step {
 
     protected function define_structure() {
 
         $paths = array();
-        $paths[] = new restore_path_element('examtimer', '/activity/examtimer');
+        $paths[] = new restore_path_element('folderexamtimer', '/activity/folderexamtimer');
 
         // Return the paths wrapped into standard activity structure
         return $this->prepare_activity_structure($paths);
     }
 
-    protected function process_examtimer($data) {
+    protected function process_folderexamtimer($data) {
         global $DB;
 
         $data = (object)$data;
@@ -52,18 +52,18 @@ class restore_examtimer_activity_structure_step extends restore_activity_structu
 
         // If showexpanded is not set, apply site default.
         if (!isset($data->showexpanded)) {
-            $data->showexpanded = get_config('examtimer', 'showexpanded');
+            $data->showexpanded = get_config('folderexamtimer', 'showexpanded');
         }
 
-        // insert the examtimer record
-        $newitemid = $DB->insert_record('examtimer', $data);
+        // insert the folderexamtimer record
+        $newitemid = $DB->insert_record('folderexamtimer', $data);
         // immediately after inserting "activity" record, call this
         $this->apply_activity_instance($newitemid);
     }
 
     protected function after_execute() {
-        // Add examtimer related files, no need to match by itemname (just internally handled context)
-        $this->add_related_files('mod_examtimer', 'intro', null);
-        $this->add_related_files('mod_examtimer', 'content', null);
+        // Add folderexamtimer related files, no need to match by itemname (just internally handled context)
+        $this->add_related_files('mod_folderexamtimer', 'intro', null);
+        $this->add_related_files('mod_folderexamtimer', 'content', null);
     }
 }

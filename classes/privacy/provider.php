@@ -15,18 +15,18 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Privacy Subsystem implementation for mod_examtimer.
+ * Privacy Subsystem implementation for mod_folderexamtimer.
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @copyright  2018 Zig Tan <zig@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-namespace mod_examtimer\privacy;
+namespace mod_folderexamtimer\privacy;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The mod_examtimer module does not store any data.
+ * The mod_folderexamtimer module does not store any data.
  *
  * @copyright  2018 Zig Tan <zig@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

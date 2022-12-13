@@ -16,28 +16,28 @@ error_reporting(0);
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Mandatory public API of examtimer module
+ * Mandatory public API of folderexamtimer module
  *
- * @package   mod_examtimer
+ * @package   mod_folderexamtimer
  * @copyright 2009 Petr Skoda  {@link http://skodak.org}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
 defined('MOODLE_INTERNAL') || die();
 
-/** Display examtimer contents on a separate page */
-define('EXAMTIMER_DISPLAY_PAGE', 0);
-/** Display examtimer contents inline in a course */
-define('EXAMTIMER_DISPLAY_INLINE', 1);
+/** Display folderexamtimer contents on a separate page */
+define('FOLDEREXAMTIMER_DISPLAY_PAGE', 0);
+/** Display folderexamtimer contents inline in a course */
+define('FOLDEREXAMTIMER_DISPLAY_INLINE', 1);
 require_once($CFG->libdir . '/completionlib.php');
 
 
 /**
- * List of features supported in Examtimer module
+ * List of features supported in folderexamtimer module
  * @param string $feature FEATURE_xx constant for requested feature
  * @return mixed True if module supports feature, false if not, null if doesn't know
  */
-function examtimer_supports($feature) {
+function folderexamtimer_supports($feature) {
     switch($feature) {
         case FEATURE_MOD_ARCHETYPE:           return MOD_ARCHETYPE_RESOURCE;
         case FEATURE_GROUPS:                  return false;
@@ -58,7 +58,7 @@ function examtimer_supports($feature) {
  * @param $data the data submitted from the reset course.
  * @return array status array
  */
-function examtimer_reset_userdata($data) {
+function folderexamtimer_reset_userdata($data) {
 
     // Any changes to the list of dates that needs to be rolled should be same during course restore and course reset.
     // See MDL-9367.
@@ -76,7 +76,7 @@ function examtimer_reset_userdata($data) {
  *
  * @return array
  */
-function examtimer_get_view_actions() {
+function folderexamtimer_get_view_actions() {
     return array('view', 'view all');
 }
 
@@ -90,17 +90,17 @@ function examtimer_get_view_actions() {
  *
  * @return array
  */
-function examtimer_get_post_actions() {
+function folderexamtimer_get_post_actions() {
     return array('update', 'add');
 }
 
 /**
- * Add examtimer instance.
+ * Add folderexamtimer instance.
  * @param object $data
  * @param object $mform
- * @return int new examtimer instance id
+ * @return int new folderexamtimer instance id
  */
-function examtimer_add_instance($data, $mform) {
+function folderexamtimer_add_instance($data, $mform) {
     global $DB;
 
     $cmid        = $data->coursemodule;
@@ -109,31 +109,31 @@ function examtimer_add_instance($data, $mform) {
     $data->timemodified = time();
     // If 'showexpanded' is not set, apply the site config.
     if (!isset($data->showexpanded)) {
-        $data->showexpanded = get_config('examtimer', 'showexpanded');
+        $data->showexpanded = get_config('folderexamtimer', 'showexpanded');
     }
-    $data->id = $DB->insert_record('examtimer', $data);
+    $data->id = $DB->insert_record('folderexamtimer', $data);
 
     // we need to use context now, so we need to make sure all needed info is already in db
     $DB->set_field('course_modules', 'instance', $data->id, array('id'=>$cmid));
     $context = context_module::instance($cmid);
 
     if ($draftitemid) {
-        file_save_draft_area_files($draftitemid, $context->id, 'mod_examtimer', 'content', 0, array('subdirs'=>true));
+        file_save_draft_area_files($draftitemid, $context->id, 'mod_folderexamtimer', 'content', 0, array('subdirs'=>true));
     }
 
     $completiontimeexpected = !empty($data->completionexpected) ? $data->completionexpected : null;
-    \core_completion\api::update_completion_date_event($data->coursemodule, 'examtimer', $data->id, $completiontimeexpected);
+    \core_completion\api::update_completion_date_event($data->coursemodule, 'folderexamtimer', $data->id, $completiontimeexpected);
 
     return $data->id;
 }
 
 /**
- * Update examtimer instance.
+ * Update folderexamtimer instance.
  * @param object $data
  * @param object $mform
  * @return bool true
  */
-function examtimer_update_instance($data, $mform) {
+function folderexamtimer_update_instance($data, $mform) {
     global $CFG, $DB;
 
     $cmid        = $data->coursemodule;
@@ -143,37 +143,37 @@ function examtimer_update_instance($data, $mform) {
     $data->id           = $data->instance;
     $data->revision++;
 
-    $DB->update_record('examtimer', $data);
+    $DB->update_record('folderexamtimer', $data);
 
     $context = context_module::instance($cmid);
     if ($draftitemid = file_get_submitted_draft_itemid('files')) {
-        file_save_draft_area_files($draftitemid, $context->id, 'mod_examtimer', 'content', 0, array('subdirs'=>true));
+        file_save_draft_area_files($draftitemid, $context->id, 'mod_folderexamtimer', 'content', 0, array('subdirs'=>true));
     }
 
     $completiontimeexpected = !empty($data->completionexpected) ? $data->completionexpected : null;
-    \core_completion\api::update_completion_date_event($data->coursemodule, 'examtimer', $data->id, $completiontimeexpected);
+    \core_completion\api::update_completion_date_event($data->coursemodule, 'folderexamtimer', $data->id, $completiontimeexpected);
 
     return true;
 }
 
 /**
- * Delete examtimer instance.
+ * Delete folderexamtimer instance.
  * @param int $id
  * @return bool true
  */
-function examtimer_delete_instance($id) {
+function folderexamtimer_delete_instance($id) {
     global $DB;
 
-    if (!$examtimer = $DB->get_record('examtimer', array('id'=>$id))) {
+    if (!$folderexamtimer = $DB->get_record('folderexamtimer', array('id'=>$id))) {
         return false;
     }
 
-    $cm = get_coursemodule_from_instance('examtimer', $id);
-    \core_completion\api::update_completion_date_event($cm->id, 'examtimer', $examtimer->id, null);
+    $cm = get_coursemodule_from_instance('folderexamtimer', $id);
+    \core_completion\api::update_completion_date_event($cm->id, 'folderexamtimer', $folderexamtimer->id, null);
 
     // note: all context files are deleted automatically
 
-    $DB->delete_records('examtimer', array('id'=>$examtimer->id));
+    $DB->delete_records('folderexamtimer', array('id'=>$folderexamtimer->id));
 
     return true;
 }
@@ -181,24 +181,24 @@ function examtimer_delete_instance($id) {
 /**
  * Lists all browsable file areas
  *
- * @package  mod_examtimer
+ * @package  mod_folderexamtimer
  * @category files
  * @param stdClass $course course object
  * @param stdClass $cm course module object
  * @param stdClass $context context object
  * @return array
  */
-function examtimer_get_file_areas($course, $cm, $context) {
+function folderexamtimer_get_file_areas($course, $cm, $context) {
     $areas = array();
-    $areas['content'] = get_string('examtimercontent', 'examtimer');
+    $areas['content'] = get_string('folderexamtimercontent', 'folderexamtimer');
 
     return $areas;
 }
 
 /**
- * File browsing support for examtimer module content area.
+ * File browsing support for folderexamtimer module content area.
  *
- * @package  mod_examtimer
+ * @package  mod_folderexamtimer
  * @category files
  * @param file_browser $browser file browser instance
  * @param array $areas file areas
@@ -211,44 +211,44 @@ function examtimer_get_file_areas($course, $cm, $context) {
  * @param string $filename file name
  * @return file_info instance or null if not found
  */
-function examtimer_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename) {
+function folderexamtimer_get_file_info($browser, $areas, $course, $cm, $context, $filearea, $itemid, $filepath, $filename) {
     global $CFG;
 
 
     if ($filearea === 'content') {
-        if (!has_capability('mod/examtimer:view', $context)) {
+        if (!has_capability('mod/folderexamtimer:view', $context)) {
             return NULL;
         }
         $fs = get_file_storage();
 
         $filepath = is_null($filepath) ? '/' : $filepath;
         $filename = is_null($filename) ? '.' : $filename;
-        if (!$storedfile = $fs->get_file($context->id, 'mod_examtimer', 'content', 0, $filepath, $filename)) {
+        if (!$storedfile = $fs->get_file($context->id, 'mod_folderexamtimer', 'content', 0, $filepath, $filename)) {
             if ($filepath === '/' and $filename === '.') {
-                $storedfile = new virtual_root_file($context->id, 'mod_examtimer', 'content', 0);
+                $storedfile = new virtual_root_file($context->id, 'mod_folderexamtimer', 'content', 0);
             } else {
                 // not found
                 return null;
             }
         }
 
-        require_once("$CFG->dirroot/mod/examtimer/locallib.php");
+        require_once("$CFG->dirroot/mod/folderexamtimer/locallib.php");
         $urlbase = $CFG->wwwroot.'/pluginfile.php';
 
         // students may read files here
-        $canwrite = has_capability('mod/examtimer:managefiles', $context);
-        return new examtimer_content_file_info($browser, $context, $storedfile, $urlbase, $areas[$filearea], true, true, $canwrite, false);
+        $canwrite = has_capability('mod/folderexamtimer:managefiles', $context);
+        return new folderexamtimer_content_file_info($browser, $context, $storedfile, $urlbase, $areas[$filearea], true, true, $canwrite, false);
     }
 
-    // note: examtimer_intro handled in file_browser automatically
+    // note: folderexamtimer_intro handled in file_browser automatically
 
     return null;
 }
 
 /**
- * Serves the examtimer files.
+ * Serves the folderexamtimer files.
  *
- * @package  mod_examtimer
+ * @package  mod_folderexamtimer
  * @category files
  * @param stdClass $course course object
  * @param stdClass $cm course module
@@ -259,7 +259,7 @@ function examtimer_get_file_info($browser, $areas, $course, $cm, $context, $file
  * @param array $options additional options affecting the file serving
  * @return bool false if file not found, does not return if found - just send the file
  */
-function examtimer_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
+function folderexamtimer_pluginfile($course, $cm, $context, $filearea, $args, $forcedownload, array $options=array()) {
     global $CFG, $DB;
 
     if ($context->contextlevel != CONTEXT_MODULE) {
@@ -267,7 +267,7 @@ function examtimer_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
     }
 
     require_course_login($course, true, $cm);
-    if (!has_capability('mod/examtimer:view', $context)) {
+    if (!has_capability('mod/folderexamtimer:view', $context)) {
         return false;
     }
 
@@ -280,7 +280,7 @@ function examtimer_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
 
     $fs = get_file_storage();
     $relativepath = implode('/', $args);
-    $fullpath = "/$context->id/mod_examtimer/content/0/$relativepath";
+    $fullpath = "/$context->id/mod_folderexamtimer/content/0/$relativepath";
     if (!$file = $fs->get_file_by_hash(sha1($fullpath)) or $file->is_directory()) {
         return false;
     }
@@ -300,24 +300,24 @@ function examtimer_pluginfile($course, $cm, $context, $filearea, $args, $forcedo
  * @param stdClass $parentcontext Block's parent context
  * @param stdClass $currentcontext Current context of block
  */
-function examtimer_page_type_list($pagetype, $parentcontext, $currentcontext) {
-    $module_pagetype = array('mod-examtimer-*'=>get_string('page-mod-examtimer-x', 'examtimer'));
+function folderexamtimer_page_type_list($pagetype, $parentcontext, $currentcontext) {
+    $module_pagetype = array('mod-folderexamtimer-*'=>get_string('page-mod-folderexamtimer-x', 'folderexamtimer'));
     return $module_pagetype;
 }
 
 /**
- * Export examtimer resource contents
+ * Export folderexamtimer resource contents
  *
  * @return array of file content
  */
-function examtimer_export_contents($cm, $baseurl) {
+function folderexamtimer_export_contents($cm, $baseurl) {
     global $CFG, $DB;
     $contents = array();
     $context = context_module::instance($cm->id);
-    $examtimer = $DB->get_record('examtimer', array('id'=>$cm->instance), '*', MUST_EXIST);
+    $folderexamtimer = $DB->get_record('folderexamtimer', array('id'=>$cm->instance), '*', MUST_EXIST);
 
     $fs = get_file_storage();
-    $files = $fs->get_area_files($context->id, 'mod_examtimer', 'content', 0, 'sortorder DESC, id ASC', false);
+    $files = $fs->get_area_files($context->id, 'mod_folderexamtimer', 'content', 0, 'sortorder DESC, id ASC', false);
 
     foreach ($files as $fileinfo) {
         $file = array();
@@ -325,7 +325,7 @@ function examtimer_export_contents($cm, $baseurl) {
         $file['filename']     = $fileinfo->get_filename();
         $file['filepath']     = $fileinfo->get_filepath();
         $file['filesize']     = $fileinfo->get_filesize();
-        $file['fileurl']      = file_encode_url("$CFG->wwwroot/" . $baseurl, '/'.$context->id.'/mod_examtimer/content/'.$examtimer->revision.$fileinfo->get_filepath().$fileinfo->get_filename(), true);
+        $file['fileurl']      = file_encode_url("$CFG->wwwroot/" . $baseurl, '/'.$context->id.'/mod_folderexamtimer/content/'.$folderexamtimer->revision.$fileinfo->get_filepath().$fileinfo->get_filename(), true);
         $file['timecreated']  = $fileinfo->get_timecreated();
         $file['timemodified'] = $fileinfo->get_timemodified();
         $file['sortorder']    = $fileinfo->get_sortorder();
@@ -347,9 +347,9 @@ function examtimer_export_contents($cm, $baseurl) {
  * Register the ability to handle drag and drop file uploads
  * @return array containing details of the files / types the mod can handle
  */
-function examtimer_dndupload_register() {
+function folderexamtimer_dndupload_register() {
     return array('files' => array(
-                     array('extension' => 'zip', 'message' => get_string('dnduploadmakeexamtimer', 'mod_examtimer'))
+                     array('extension' => 'zip', 'message' => get_string('dnduploadmakefolderexamtimer', 'mod_folderexamtimer'))
                  ));
 }
 
@@ -358,7 +358,7 @@ function examtimer_dndupload_register() {
  * @param object $uploadinfo details of the file / content that has been uploaded
  * @return int instance id of the newly created mod
  */
-function examtimer_dndupload_handle($uploadinfo) {
+function folderexamtimer_dndupload_handle($uploadinfo) {
     global $DB, $USER;
 
     // Gather the required info.
@@ -370,24 +370,24 @@ function examtimer_dndupload_handle($uploadinfo) {
     $data->coursemodule = $uploadinfo->coursemodule;
     $data->files = null; // We will unzip the file and sort out the contents below.
 
-    $data->id = examtimer_add_instance($data, null);
+    $data->id = folderexamtimer_add_instance($data, null);
 
     // Retrieve the file from the draft file area.
     $context = context_module::instance($uploadinfo->coursemodule);
-    file_save_draft_area_files($uploadinfo->draftitemid, $context->id, 'mod_examtimer', 'temp', 0, array('subdirs'=>true));
+    file_save_draft_area_files($uploadinfo->draftitemid, $context->id, 'mod_folderexamtimer', 'temp', 0, array('subdirs'=>true));
     $fs = get_file_storage();
-    $files = $fs->get_area_files($context->id, 'mod_examtimer', 'temp', 0, 'sortorder', false);
+    $files = $fs->get_area_files($context->id, 'mod_folderexamtimer', 'temp', 0, 'sortorder', false);
     // Only ever one file - extract the contents.
     $file = reset($files);
 
-    $success = $file->extract_to_storage(new zip_packer(), $context->id, 'mod_examtimer', 'content', 0, '/', $USER->id);
-    $fs->delete_area_files($context->id, 'mod_examtimer', 'temp', 0);
+    $success = $file->extract_to_storage(new zip_packer(), $context->id, 'mod_folderexamtimer', 'content', 0, '/', $USER->id);
+    $fs->delete_area_files($context->id, 'mod_folderexamtimer', 'temp', 0);
 
     if ($success) {
         return $data->id;
     }
 
-    $DB->delete_records('examtimer', array('id' => $data->id));
+    $DB->delete_records('folderexamtimer', array('id' => $data->id));
     return false;
 }
 
@@ -395,31 +395,31 @@ function examtimer_dndupload_handle($uploadinfo) {
  * Given a coursemodule object, this function returns the extra
  * information needed to print this activity in various places.
  *
- * If examtimer needs to be displayed inline we store additional information
- * in customdata, so functions {@link examtimer_cm_info_dynamic()} and
- * {@link examtimer_cm_info_view()} do not need to do DB queries
+ * If folderexamtimer needs to be displayed inline we store additional information
+ * in customdata, so functions {@link folderexamtimer_cm_info_dynamic()} and
+ * {@link folderexamtimer_cm_info_view()} do not need to do DB queries
  *
  * @param cm_info $cm
  * @return cached_cm_info info
  */
-function examtimer_get_coursemodule_info($cm) {
+function folderexamtimer_get_coursemodule_info($cm) {
     global $DB;
-    if (!($examtimer = $DB->get_record('examtimer', array('id' => $cm->instance),
-            'id, name, display, showexpanded, showdownloadexamtimer, completiondownload,forcedownload, intro, introformat'))) {
+    if (!($folderexamtimer = $DB->get_record('folderexamtimer', array('id' => $cm->instance),
+            'id, name, display, showexpanded, showdownloadfolderexamtimer, completiondownload,forcedownload, intro, introformat'))) {
         return NULL;
     }
     $cminfo = new cached_cm_info();
-    $cminfo->name = $examtimer->name;
-    if ($examtimer->display == EXAMTIMER_DISPLAY_INLINE) {
-        // prepare examtimer object to store in customdata
+    $cminfo->name = $folderexamtimer->name;
+    if ($folderexamtimer->display == FOLDEREXAMTIMER_DISPLAY_INLINE) {
+        // prepare folderexamtimer object to store in customdata
         $fdata = new stdClass();
-        $fdata->showexpanded = $examtimer->showexpanded;
-        $fdata->showdownloadexamtimer = $examtimer->showdownloadexamtimer;
-        $fdata->forcedownload = $examtimer->forcedownload;
-        if ($cm->showdescription && strlen(trim($examtimer->intro))) {
-            $fdata->intro = $examtimer->intro;
-            if ($examtimer->introformat != FORMAT_MOODLE) {
-                $fdata->introformat = $examtimer->introformat;
+        $fdata->showexpanded = $folderexamtimer->showexpanded;
+        $fdata->showdownloadfolderexamtimer = $folderexamtimer->showdownloadfolderexamtimer;
+        $fdata->forcedownload = $folderexamtimer->forcedownload;
+        if ($cm->showdescription && strlen(trim($folderexamtimer->intro))) {
+            $fdata->intro = $folderexamtimer->intro;
+            if ($folderexamtimer->introformat != FORMAT_MOODLE) {
+                $fdata->introformat = $folderexamtimer->introformat;
             }
         }
 
@@ -428,13 +428,13 @@ function examtimer_get_coursemodule_info($cm) {
     } else {
         if ($cm->showdescription) {
             // Convert intro to html. Do not filter cached version, filters run at display time.
-            $fdata->content = format_module_intro('examtimer', $examtimer, $cm->id, false);
+            $fdata->content = format_module_intro('folderexamtimer', $folderexamtimer, $cm->id, false);
         }
     }
 
         // Populate the custom completion rules as key => value pairs, but only if the completion mode is 'automatic'.
         if ($cm->completion == COMPLETION_TRACKING_AUTOMATIC) {
-            $result->customdata['customcompletionrules']['completiondownload'] = $examtimer->completiondownload;
+            $result->customdata['customcompletionrules']['completiondownload'] = $folderexamtimer->completiondownload;
 
         }
 
@@ -445,11 +445,11 @@ function examtimer_get_coursemodule_info($cm) {
  * Sets dynamic information about a course module
  *
  * This function is called from cm_info when displaying the module
- * mod_examtimer can be displayed inline on course page and therefore have no course link
+ * mod_folderexamtimer can be displayed inline on course page and therefore have no course link
  *
  * @param cm_info $cm
  */
-function examtimer_cm_info_dynamic(cm_info $cm) {
+function folderexamtimer_cm_info_dynamic(cm_info $cm) {
     if ($cm->customdata) {
         // the field 'customdata' is not empty IF AND ONLY IF we display contens inline
         $cm->set_no_view_link();
@@ -457,56 +457,56 @@ function examtimer_cm_info_dynamic(cm_info $cm) {
 }
 
 /**
- * Overwrites the content in the course-module object with the examtimer files list
- * if examtimer.display == EXAMTIMER_DISPLAY_INLINE
+ * Overwrites the content in the course-module object with the folderexamtimer files list
+ * if folderexamtimer.display == folderexamtimer_DISPLAY_INLINE
  *
  * @param cm_info $cm
  */
-function examtimer_cm_info_view(cm_info $cm) {
+function folderexamtimer_cm_info_view(cm_info $cm) {
     global $PAGE;
     if ($cm->uservisible && $cm->customdata &&
-            has_capability('mod/examtimer:view', $cm->context)) {
-        // Restore examtimer object from customdata.
+            has_capability('mod/folderexamtimer:view', $cm->context)) {
+        // Restore folderexamtimer object from customdata.
         // Note the field 'customdata' is not empty IF AND ONLY IF we display contens inline.
         // Otherwise the content is default.
-        $examtimer = $cm->customdata;
-        $examtimer->id = (int)$cm->instance;
-        $examtimer->course = (int)$cm->course;
-        $examtimer->display = EXAMTIMER_DISPLAY_INLINE;
-        $examtimer->name = $cm->name;
-        if (empty($examtimer->intro)) {
-            $examtimer->intro = '';
+        $folderexamtimer = $cm->customdata;
+        $folderexamtimer->id = (int)$cm->instance;
+        $folderexamtimer->course = (int)$cm->course;
+        $folderexamtimer->display = FOLDEREXAMTIMER_DISPLAY_INLINE;
+        $folderexamtimer->name = $cm->name;
+        if (empty($folderexamtimer->intro)) {
+            $folderexamtimer->intro = '';
         }
-        if (empty($examtimer->introformat)) {
-            $examtimer->introformat = FORMAT_MOODLE;
+        if (empty($folderexamtimer->introformat)) {
+            $folderexamtimer->introformat = FORMAT_MOODLE;
         }
-        // display examtimer
-        $renderer = $PAGE->get_renderer('mod_examtimer');
-        $cm->set_content($renderer->display_examtimer($examtimer), true);
+        // display folderexamtimer
+        $renderer = $PAGE->get_renderer('mod_folderexamtimer');
+        $cm->set_content($renderer->display_folderexamtimer($folderexamtimer), true);
     }
 }
 
 /**
  * Mark the activity completed (if required) and trigger the course_module_viewed event.
  *
- * @param  stdClass $examtimer     examtimer object
+ * @param  stdClass $folderexamtimer     folderexamtimer object
  * @param  stdClass $course     course object
  * @param  stdClass $cm         course module object
  * @param  stdClass $context    context object
  * @since Moodle 3.0
  */
-function examtimer_view($examtimer, $course, $cm, $context) {
+function folderexamtimer_view($folderexamtimer, $course, $cm, $context) {
 
     // Trigger course_module_viewed event.
     $params = array(
         'context' => $context,
-        'objectid' => $examtimer->id
+        'objectid' => $folderexamtimer->id
     );
 
-    $event = \mod_examtimer\event\course_module_viewed::create($params);
+    $event = \mod_folderexamtimer\event\course_module_viewed::create($params);
     $event->add_record_snapshot('course_modules', $cm);
     $event->add_record_snapshot('course', $course);
-    $event->add_record_snapshot('examtimer', $examtimer);
+    $event->add_record_snapshot('folderexamtimer', $folderexamtimer);
     $event->trigger();
 
     // Completion.
@@ -515,23 +515,23 @@ function examtimer_view($examtimer, $course, $cm, $context) {
 }
 
 /**
- * Check if the examtimer can be zipped and downloaded.
- * @param stdClass $examtimer
+ * Check if the folderexamtimer can be zipped and downloaded.
+ * @param stdClass $folderexamtimer
  * @param context_module $cm
- * @return bool True if the examtimer can be zipped and downloaded.
+ * @return bool True if the folderexamtimer can be zipped and downloaded.
  * @throws \dml_exception
  */
-function examtimer_archive_available($examtimer, $cm) {
-    if (!$examtimer->showdownloadexamtimer) {
+function folderexamtimer_archive_available($folderexamtimer, $cm) {
+    if (!$folderexamtimer->showdownloadfolderexamtimer) {
         return false;
     }
 
     $context = context_module::instance($cm->id);
     $fs = get_file_storage();
-    $dir = $fs->get_area_tree($context->id, 'mod_examtimer', 'content', 0);
+    $dir = $fs->get_area_tree($context->id, 'mod_folderexamtimer', 'content', 0);
 
-    $size = examtimer_get_directory_size($dir);
-    $maxsize = get_config('examtimer', 'maxsizetodownload') * 1024 * 1024;
+    $size = folderexamtimer_get_directory_size($dir);
+    $maxsize = get_config('folderexamtimer', 'maxsizetodownload') * 1024 * 1024;
 
     if ($size == 0) {
         return false;
@@ -549,7 +549,7 @@ function examtimer_archive_available($examtimer, $cm) {
  * @param array $directory
  * @return int size of directory contents in bytes
  */
-function examtimer_get_directory_size($directory) {
+function folderexamtimer_get_directory_size($directory) {
     $size = 0;
 
     foreach ($directory['files'] as $file) {
@@ -557,7 +557,7 @@ function examtimer_get_directory_size($directory) {
     }
 
     foreach ($directory['subdirs'] as $subdirectory) {
-        $size += examtimer_get_directory_size($subdirectory);
+        $size += folderexamtimer_get_directory_size($subdirectory);
     }
 
     return $size;
@@ -566,21 +566,21 @@ function examtimer_get_directory_size($directory) {
 /**
  * Mark the activity completed (if required) and trigger the all_files_downloaded event.
  *
- * @param  stdClass $examtimer     examtimer object
+ * @param  stdClass $folderexamtimer     folderexamtimer object
  * @param  stdClass $course     course object
  * @param  stdClass $cm         course module object
  * @param  stdClass $context    context object
  * @since Moodle 3.1
  */
-function examtimer_downloaded($examtimer, $course, $cm, $context) {
+function folderexamtimer_downloaded($folderexamtimer, $course, $cm, $context) {
     $params = array(
         'context' => $context,
-        'objectid' => $examtimer->id
+        'objectid' => $folderexamtimer->id
     );
-    $event = \mod_examtimer\event\all_files_downloaded::create($params);
+    $event = \mod_folderexamtimer\event\all_files_downloaded::create($params);
     $event->add_record_snapshot('course_modules', $cm);
     $event->add_record_snapshot('course', $course);
-    $event->add_record_snapshot('examtimer', $examtimer);
+    $event->add_record_snapshot('folderexamtimer', $folderexamtimer);
     $event->trigger();
 
     // Completion.
@@ -589,7 +589,7 @@ function examtimer_downloaded($examtimer, $course, $cm, $context) {
 }
 
 /**
- * Returns all uploads since a given time in specified examtimer.
+ * Returns all uploads since a given time in specified folderexamtimer.
  *
  * @param array $activities
  * @param int $index
@@ -599,7 +599,7 @@ function examtimer_downloaded($examtimer, $course, $cm, $context) {
  * @param int $userid
  * @param int $groupid not used, but required for compatibilty with other modules
  */
-function examtimer_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
+function folderexamtimer_get_recent_mod_activity(&$activities, &$index, $timestart, $courseid, $cmid, $userid=0, $groupid=0) {
     global $COURSE, $DB, $OUTPUT;
 
     if ($COURSE->id == $courseid) {
@@ -612,22 +612,22 @@ function examtimer_get_recent_mod_activity(&$activities, &$index, $timestart, $c
     $cm = $modinfo->cms[$cmid];
 
     $context = context_module::instance($cm->id);
-    if (!has_capability('mod/examtimer:view', $context)) {
+    if (!has_capability('mod/folderexamtimer:view', $context)) {
         return;
     }
-    $files = examtimer_get_recent_activity($context, $timestart, $userid);
+    $files = folderexamtimer_get_recent_activity($context, $timestart, $userid);
 
     foreach ($files as $file) {
         $tmpactivity = new stdClass();
 
-        $tmpactivity->type       = 'examtimer';
+        $tmpactivity->type       = 'folderexamtimer';
         $tmpactivity->cmid       = $cm->id;
         $tmpactivity->sectionnum = $cm->sectionnum;
         $tmpactivity->timestamp  = $file->get_timemodified();
         $tmpactivity->user       = core_user::get_user($file->get_userid());
 
         $tmpactivity->content           = new stdClass();
-        $tmpactivity->content->url      = moodle_url::make_pluginfile_url($file->get_contextid(), 'mod_examtimer', 'content',
+        $tmpactivity->content->url      = moodle_url::make_pluginfile_url($file->get_contextid(), 'mod_folderexamtimer', 'content',
             $file->get_itemid(), $file->get_filepath(), $file->get_filename());
 
         if (file_extension_in_typegroup($file->get_filename(), 'web_image')) {
@@ -646,15 +646,15 @@ function examtimer_get_recent_mod_activity(&$activities, &$index, $timestart, $c
 }
 
 /**
- * Outputs the examtimer uploads indicated by $activity.
+ * Outputs the folderexamtimer uploads indicated by $activity.
  *
- * @param object $activity      the activity object the examtimer resides in
- * @param int    $courseid      the id of the course the examtimer resides in
+ * @param object $activity      the activity object the folderexamtimer resides in
+ * @param int    $courseid      the id of the course the folderexamtimer resides in
  * @param bool   $detail        not used, but required for compatibilty with other modules
  * @param int    $modnames      not used, but required for compatibilty with other modules
  * @param bool   $viewfullnames not used, but required for compatibilty with other modules
  */
-function examtimer_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
+function folderexamtimer_print_recent_mod_activity($activity, $courseid, $detail, $modnames, $viewfullnames) {
     global $OUTPUT;
 
     $content = $activity->content;
@@ -678,7 +678,7 @@ function examtimer_print_recent_mod_activity($activity, $courseid, $detail, $mod
     $by = new stdClass();
     $by->name = html_writer::link($userurl, $fullname);
     $by->date = userdate($activity->timestamp);
-    $authornamedate = get_string('bynameondate', 'examtimer', $by);
+    $authornamedate = get_string('bynameondate', 'folderexamtimer', $by);
     $output .= html_writer::div($authornamedate, 'user');
 
     // Finish up the table.
@@ -689,7 +689,7 @@ function examtimer_print_recent_mod_activity($activity, $courseid, $detail, $mod
 }
 
 /**
- * Gets recent file uploads in a given examtimer. Does not perform security checks.
+ * Gets recent file uploads in a given folderexamtimer. Does not perform security checks.
  *
  * @param object $context
  * @param int $timestart
@@ -697,10 +697,10 @@ function examtimer_print_recent_mod_activity($activity, $courseid, $detail, $mod
  *
  * @return array
  */
-function examtimer_get_recent_activity($context, $timestart, $userid=0) {
+function folderexamtimer_get_recent_activity($context, $timestart, $userid=0) {
     $newfiles = array();
     $fs = get_file_storage();
-    $files = $fs->get_area_files($context->id, 'mod_examtimer', 'content');
+    $files = $fs->get_area_files($context->id, 'mod_folderexamtimer', 'content');
     foreach ($files as $file) {
         if ($file->get_timemodified() <= $timestart) {
             continue;
@@ -718,7 +718,7 @@ function examtimer_get_recent_activity($context, $timestart, $userid=0) {
 
 /**
  * Given a course and a date, prints a summary of all the new
- * files posted in examtimer resources since that date
+ * files posted in folderexamtimer resources since that date
  *
  * @uses CONTEXT_MODULE
  * @param object $course
@@ -726,28 +726,28 @@ function examtimer_get_recent_activity($context, $timestart, $userid=0) {
  * @param int $timestart
  * @return bool success
  */
-function examtimer_print_recent_activity($course, $viewfullnames, $timestart) {
+function folderexamtimer_print_recent_activity($course, $viewfullnames, $timestart) {
     global $OUTPUT;
 
-    $examtimers = get_all_instances_in_course('examtimer', $course);
+    $folderexamtimers = get_all_instances_in_course('folderexamtimer', $course);
 
-    if (empty($examtimers)) {
+    if (empty($folderexamtimers)) {
         return false;
     }
 
     $newfiles = array();
 
     $modinfo = get_fast_modinfo($course);
-    foreach ($examtimers as $examtimer) {
+    foreach ($folderexamtimers as $folderexamtimer) {
         // Skip resources if the user can't view them.
-        $cm = $modinfo->cms[$examtimer->coursemodule];
+        $cm = $modinfo->cms[$folderexamtimer->coursemodule];
         $context = context_module::instance($cm->id);
-        if (!has_capability('mod/examtimer:view', $context)) {
+        if (!has_capability('mod/folderexamtimer:view', $context)) {
             continue;
         }
 
         // Get the files uploaded in the current time frame.
-        $newfiles = array_merge($newfiles, examtimer_get_recent_activity($context, $timestart));
+        $newfiles = array_merge($newfiles, folderexamtimer_get_recent_activity($context, $timestart));
     }
 
     if (empty($newfiles)) {
@@ -755,11 +755,11 @@ function examtimer_print_recent_activity($course, $viewfullnames, $timestart) {
     }
 
     // Build list of files.
-    echo $OUTPUT->heading(get_string('newexamtimercontent', 'examtimer') . ':', 6);
+    echo $OUTPUT->heading(get_string('newfolderexamtimercontent', 'folderexamtimer') . ':', 6);
     $list = html_writer::start_tag('ul', ['class' => 'unlist']);
     foreach ($newfiles as $file) {
         $filename = $file->get_filename();
-        $url = moodle_url::make_pluginfile_url($file->get_contextid(), 'mod_examtimer', 'content',
+        $url = moodle_url::make_pluginfile_url($file->get_contextid(), 'mod_folderexamtimer', 'content',
             $file->get_itemid(), $file->get_filepath(), $filename);
 
         $list .= html_writer::start_tag('li');
@@ -787,7 +787,7 @@ function examtimer_print_recent_activity($course, $viewfullnames, $timestart) {
  * @return stdClass an object with the different type of areas indicating if they were updated or not
  * @since Moodle 3.2
  */
-function examtimer_check_updates_since(cm_info $cm, $from, $filter = array()) {
+function folderexamtimer_check_updates_since(cm_info $cm, $from, $filter = array()) {
     $updates = course_check_module_updates_since($cm, $from, array('content'), $filter);
     return $updates;
 }
@@ -803,7 +803,7 @@ function examtimer_check_updates_since(cm_info $cm, $from, $filter = array()) {
  * @param int $userid User id to use for all capability checks, etc. Set to 0 for current user (default).
  * @return \core_calendar\local\event\entities\action_interface|null
  */
-function mod_examtimer_core_calendar_provide_event_action(calendar_event $event,
+function mod_folderexamtimer_core_calendar_provide_event_action(calendar_event $event,
                                                        \core_calendar\action_factory $factory,
                                                        int $userid = 0) {
     global $USER;
@@ -812,7 +812,7 @@ function mod_examtimer_core_calendar_provide_event_action(calendar_event $event,
         $userid = $USER->id;
     }
 
-    $cm = get_fast_modinfo($event->courseid, $userid)->instances['examtimer'][$event->instance];
+    $cm = get_fast_modinfo($event->courseid, $userid)->instances['folderexamtimer'][$event->instance];
 
     if (!$cm->uservisible) {
         // The module is not visible to the user for any reason.
@@ -829,7 +829,7 @@ function mod_examtimer_core_calendar_provide_event_action(calendar_event $event,
 
     return $factory->create_instance(
         get_string('view'),
-        new \moodle_url('/mod/examtimer/view.php', ['id' => $cm->id]),
+        new \moodle_url('/mod/folderexamtimer/view.php', ['id' => $cm->id]),
         1,
         true
     );
@@ -842,8 +842,8 @@ function mod_examtimer_core_calendar_provide_event_action(calendar_event $event,
  * @param  array  $args The path (the part after the filearea and before the filename).
  * @return array The itemid and the filepath inside the $args path, for the defined filearea.
  */
-function mod_examtimer_get_path_from_pluginfile(string $filearea, array $args) : array {
-    // Examtimer never has an itemid (the number represents the revision but it's not stored in database).
+function mod_folderexamtimer_get_path_from_pluginfile(string $filearea, array $args) : array {
+    // folderexamtimer never has an itemid (the number represents the revision but it's not stored in database).
     array_shift($args);
 
     // Get the filepath.
@@ -870,15 +870,15 @@ function mod_examtimer_get_path_from_pluginfile(string $filearea, array $args) :
   * @param bool $type Type of comparison (or/and; can be used as return value if no conditions)
   * @return bool True if completed, false if not, $type if conditions not set.
   */
-  function examtimer_get_completion_state($course,$cm,$userid,$type) {
+  function folderexamtimer_get_completion_state($course,$cm,$userid,$type) {
     global $CFG,$DB;
 
     // Get forum details
-    $examtimer = $DB->get_record('examtimer', array('id' => $cm->instance), '*', MUST_EXIST);
+    $folderexamtimer = $DB->get_record('folderexamtimer', array('id' => $cm->instance), '*', MUST_EXIST);
 
     // If completion option is enabled, evaluate it and return true/false
-    if($examtimer->completiondownload) {
-        return $examtimer->completiondownload;
+    if($folderexamtimer->completiondownload) {
+        return $folderexamtimer->completiondownload;
 
     } else {
         // Completion option is not enabled so just return $type
@@ -892,7 +892,7 @@ function mod_examtimer_get_path_from_pluginfile(string $filearea, array $args) :
  * @param cm_info|stdClass $cm object with fields ->completion and ->customdata['customcompletionrules']
  * @return array $descriptions the array of descriptions for the custom rules.
  */
-function mod_examtimer_get_completion_active_rule_descriptions($cm) {
+function mod_folderexamtimer_get_completion_active_rule_descriptions($cm) {
     // Values will be present in cm_info, and we assume these are up to date.
     if (empty($cm->customdata['customcompletionrules'])
         || $cm->completion != COMPLETION_TRACKING_AUTOMATIC) {
@@ -904,7 +904,7 @@ function mod_examtimer_get_completion_active_rule_descriptions($cm) {
         switch ($key) {
             case 'completiondownload':
                 if (!empty($val)) {
-                    $descriptions[] = get_string('completiondownloaddesc', 'examtimer', $val);
+                    $descriptions[] = get_string('completiondownloaddesc', 'folderexamtimer', $val);
                 }
 
                 break;

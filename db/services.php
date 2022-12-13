@@ -15,9 +15,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * examtimer external functions and service definitions.
+ * folderexamtimer external functions and service definitions.
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @category   external
  * @copyright  2015 Juan Leyva <juan@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -28,21 +28,21 @@ defined('MOODLE_INTERNAL') || die;
 
 $functions = array(
 
-    'mod_examtimer_view_examtimer' => array(
-        'classname'     => 'mod_examtimer_external',
-        'methodname'    => 'view_examtimer',
-        'description'   => 'Simulate the view.php web interface examtimer: trigger events, completion, etc...',
+    'mod_folderexamtimer_view_folderexamtimer' => array(
+        'classname'     => 'mod_folderexamtimer_external',
+        'methodname'    => 'view_folderexamtimer',
+        'description'   => 'Simulate the view.php web interface folderexamtimer: trigger events, completion, etc...',
         'type'          => 'write',
-        'capabilities'  => 'mod/examtimer:view',
+        'capabilities'  => 'mod/folderexamtimer:view',
         'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE)
     ),
-    'mod_examtimer_get_examtimers_by_courses' => array(
-        'classname'     => 'mod_examtimer_external',
-        'methodname'    => 'get_examtimers_by_courses',
-        'description'   => 'Returns a list of examtimers in a provided list of courses, if no list is provided all examtimers that
-                            the user can view will be returned. Please note that this WS is not returning the examtimer contents.',
+    'mod_folderexamtimer_get_folderexamtimers_by_courses' => array(
+        'classname'     => 'mod_folderexamtimer_external',
+        'methodname'    => 'get_folderexamtimers_by_courses',
+        'description'   => 'Returns a list of folderexamtimers in a provided list of courses, if no list is provided all folderexamtimers that
+                            the user can view will be returned. Please note that this WS is not returning the folderexamtimer contents.',
         'type'          => 'read',
-        'capabilities'  => 'mod/examtimer:view',
+        'capabilities'  => 'mod/folderexamtimer:view',
         'services'      => array(MOODLE_OFFICIAL_MOBILE_SERVICE),
     ),
 );

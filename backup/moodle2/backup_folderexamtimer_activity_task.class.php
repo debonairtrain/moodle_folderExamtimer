@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Defines backup_examtimer_activity_task class
+ * Defines backup_folderexamtimer_activity_task class
  *
- * @package   mod_examtimer
+ * @package   mod_folderexamtimer
  * @category  backup
  * @copyright 2010 onwards Eloy Lafuente (stronk7) {@link http://stronk7.com}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
@@ -26,12 +26,12 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-require_once($CFG->dirroot . '/mod/examtimer/backup/moodle2/backup_examtimer_stepslib.php');
+require_once($CFG->dirroot . '/mod/folderexamtimer/backup/moodle2/backup_folderexamtimer_stepslib.php');
 
 /**
- * Provides the steps to perform one complete backup of the Examtimer instance
+ * Provides the steps to perform one complete backup of the folderexamtimer instance
  */
-class backup_examtimer_activity_task extends backup_activity_task {
+class backup_folderexamtimer_activity_task extends backup_activity_task {
 
     /**
      * No specific settings for this activity
@@ -40,10 +40,10 @@ class backup_examtimer_activity_task extends backup_activity_task {
     }
 
     /**
-     * Defines a backup step to store the instance data in the examtimer.xml file
+     * Defines a backup step to store the instance data in the folderexamtimer.xml file
      */
     protected function define_my_steps() {
-        $this->add_step(new backup_examtimer_activity_structure_step('examtimer_structure', 'examtimer.xml'));
+        $this->add_step(new backup_folderexamtimer_activity_structure_step('folderexamtimer_structure', 'folderexamtimer.xml'));
     }
 
     /**
@@ -57,13 +57,13 @@ class backup_examtimer_activity_task extends backup_activity_task {
 
         $base = preg_quote($CFG->wwwroot,"/");
 
-        // Link to the list of examtimer
-        $search="/(".$base."\/mod\/examtimer\/index.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@EXAMTIMERINDEX*$2@$', $content);
+        // Link to the list of folderexamtimer
+        $search="/(".$base."\/mod\/folderexamtimer\/index.php\?id\=)([0-9]+)/";
+        $content= preg_replace($search, '$@FOLDEREXAMTIMERINDEX*$2@$', $content);
 
         // Link to choice view by moduleid
-        $search="/(".$base."\/mod\/examtimer\/view.php\?id\=)([0-9]+)/";
-        $content= preg_replace($search, '$@EXAMTIMERVIEWBYID*$2@$', $content);
+        $search="/(".$base."\/mod\/folderexamtimer\/view.php\?id\=)([0-9]+)/";
+        $content= preg_replace($search, '$@FOLDEREXAMTIMERVIEWBYID*$2@$', $content);
 
         return $content;
     }

@@ -79,7 +79,7 @@ function initializeClock(id, endtime) {
           if (t.total <= 0) {
               document.getElementById('clockdiv').style.display = 'none';
               document.getElementById('msg').style.display = 'none';
-              document.getElementById('examtimer_tree0').style.display = 'block';
+              document.getElementById('folderexamtimer_tree0').style.display = 'block';
               document.getElementById('controlbutton').style.display = 'block';
 
               clearInterval(timeinterval);
@@ -98,9 +98,9 @@ function warming_up(){
 
   var deadline = document.getElementById('due').innerText;
   initializeClock('clockdiv', deadline);
-  document.getElementById('examtimer_tree0').style.display = 'block';
+  document.getElementById('folderexamtimer_tree0').style.display = 'block';
   document.getElementById('controlbutton').style.display = 'block';
-  document.getElementById('examtimer').style.display = 'block';
+  document.getElementById('folderexamtimer').style.display = 'block';
 
 
 }

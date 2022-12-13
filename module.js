@@ -14,17 +14,17 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Javascript helper function for Examtimer module
+ * Javascript helper function for folderexamtimer module
  *
  * @package    mod
- * @subpackage examtimer
+ * @subpackage folderexamtimer
  * @copyright  2009 Petr Skoda  {@link http://skodak.org}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-M.mod_examtimer = {};
+M.mod_folderexamtimer = {};
 
-M.mod_examtimer.init_tree = function(Y, id, expand_all) {
+M.mod_folderexamtimer.init_tree = function(Y, id, expand_all) {
     Y.use('yui2-treeview', 'node-event-simulate', function(Y) {
         var tree = new Y.YUI2.widget.TreeView(id);
 

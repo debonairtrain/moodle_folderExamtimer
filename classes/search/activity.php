@@ -15,21 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Search area for mod_examtimer activities.
+ * Search area for mod_folderexamtimer activities.
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @copyright  2015 David Monllao {@link http://www.davidmonllao.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_examtimer\search;
+namespace mod_folderexamtimer\search;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * Search area for mod_examtimer activities.
+ * Search area for mod_folderexamtimer activities.
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @copyright  2015 David Monllao {@link http://www.davidmonllao.com}
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */

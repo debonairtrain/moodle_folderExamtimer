@@ -16,9 +16,9 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Examtimer module admin settings and defaults
+ * folderexamtimer module admin settings and defaults
  *
- * @package   mod_examtimer
+ * @package   mod_folderexamtimer
  * @copyright 2009 Petr Skoda  {@link http://skodak.org}
  * @license   http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
@@ -27,11 +27,11 @@ defined('MOODLE_INTERNAL') || die;
 
 if ($ADMIN->fulltree) {
     //--- general settings -----------------------------------------------------------------------------------
-    $settings->add(new admin_setting_configcheckbox('examtimer/showexpanded',
-        get_string('showexpanded', 'examtimer'),
-        get_string('showexpanded_help', 'examtimer'), 1));
+    $settings->add(new admin_setting_configcheckbox('folderexamtimer/showexpanded',
+        get_string('showexpanded', 'folderexamtimer'),
+        get_string('showexpanded_help', 'folderexamtimer'), 1));
 
-    $settings->add(new admin_setting_configtext('examtimer/maxsizetodownload',
-        get_string('maxsizetodownload', 'examtimer'),
-        get_string('maxsizetodownload_help', 'examtimer'), '', PARAM_INT));
+    $settings->add(new admin_setting_configtext('folderexamtimer/maxsizetodownload',
+        get_string('maxsizetodownload', 'folderexamtimer'),
+        get_string('maxsizetodownload_help', 'folderexamtimer'), '', PARAM_INT));
 }

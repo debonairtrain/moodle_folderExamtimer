@@ -15,7 +15,7 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * Manage files in examtimer module instance
+ * Manage files in folderexamtimer module instance
  *
  * @package   Version
  * @copyleft 2022 Debonair Training {@link http://debonairtraining.com}
@@ -25,7 +25,7 @@
 
 defined('MOODLE_INTERNAL') || die();
 
-$plugin->version   = 2022111501;       // The current module version (Date: YYYYMMDDXX)
+$plugin->version   = 2022121202;       // The current module version (Date: YYYYMMDDXX)
 $plugin->requires  = 2020110300;    // Requires this Moodle version
-$plugin->component = 'mod_examtimer';     // Full name of the plugin (used for diagnostics)
+$plugin->component = 'mod_folderexamtimer';     // Full name of the plugin (used for diagnostics)
 $plugin->cron      = 0;

@@ -15,21 +15,21 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_examtimer instance list viewed event.
+ * The mod_folderexamtimer instance list viewed event.
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @copyright  2013 Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_examtimer\event;
+namespace mod_folderexamtimer\event;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The mod_examtimer instance list viewed event class.
+ * The mod_folderexamtimer instance list viewed event class.
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @since      Moodle 2.7
  * @copyright  2013 Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later

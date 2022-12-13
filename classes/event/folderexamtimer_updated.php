@@ -15,26 +15,26 @@
 // along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
 
 /**
- * The mod_examtimer examtimer updated event.
+ * The mod_folderexamtimer folderexamtimer updated event.
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @copyright  2013 Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
-namespace mod_examtimer\event;
+namespace mod_folderexamtimer\event;
 
 defined('MOODLE_INTERNAL') || die();
 
 /**
- * The mod_examtimer examtimer updated event class.
+ * The mod_folderexamtimer folderexamtimer updated event class.
  *
- * @package    mod_examtimer
+ * @package    mod_folderexamtimer
  * @since      Moodle 2.7
  * @copyright  2013 Mark Nelson <markn@moodle.com>
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
-class examtimer_updated extends \core\event\base {
+class folderexamtimer_updated extends \core\event\base {
 
     /**
      * Init method.
@@ -42,7 +42,7 @@ class examtimer_updated extends \core\event\base {
     protected function init() {
         $this->data['crud'] = 'u';
         $this->data['edulevel'] = self::LEVEL_TEACHING;
-        $this->data['objecttable'] = 'examtimer';
+        $this->data['objecttable'] = 'folderexamtimer';
     }
 
     /**
@@ -51,7 +51,7 @@ class examtimer_updated extends \core\event\base {
      * @return string
      */
     public static function get_name() {
-        return get_string('eventexamtimerupdated', 'mod_examtimer');
+        return get_string('eventfolderexamtimerupdated', 'mod_folderexamtimer');
     }
 
     /**
@@ -60,7 +60,7 @@ class examtimer_updated extends \core\event\base {
      * @return string
      */
     public function get_description() {
-        return "The user with id '$this->userid' updated the examtimer activity with course module id '$this->contextinstanceid'.";
+        return "The user with id '$this->userid' updated the folderexamtimer activity with course module id '$this->contextinstanceid'.";
     }
 
     /**
@@ -69,7 +69,7 @@ class examtimer_updated extends \core\event\base {
      * @return \moodle_url
      */
     public function get_url() {
-        return new \moodle_url('/mod/examtimer/edit.php', array('id' => $this->contextinstanceid));
+        return new \moodle_url('/mod/folderexamtimer/edit.php', array('id' => $this->contextinstanceid));
     }
 
     /**
@@ -78,11 +78,11 @@ class examtimer_updated extends \core\event\base {
      * @return array|null
      */
     protected function get_legacy_logdata() {
-        return array($this->courseid, 'examtimer', 'edit', 'edit.php?id=' . $this->contextinstanceid, $this->objectid,
+        return array($this->courseid, 'folderexamtimer', 'edit', 'edit.php?id=' . $this->contextinstanceid, $this->objectid,
             $this->contextinstanceid);
     }
 
     public static function get_objectid_mapping() {
-        return array('db' => 'examtimer', 'restore' => 'examtimer');
+        return array('db' => 'folderexamtimer', 'restore' => 'folderexamtimer');
     }
 }
