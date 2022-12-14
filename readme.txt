@@ -25,6 +25,8 @@ Folder Examtimer module child-plugin of the native Moodle "Folder" Resource modu
 
 This module is intended for distribution of large number of documents.
 
+The Exam countdown timer is a Moodle plugin designed in response to multiple students simultaneously and incessantly refreshing their browsers; in anticipation of the start button appearing for long form examinations.
+
 TODO:
  * reimplement portfolio support (MDL-20070)
  * new backup/restore and old restore transformation (MDL-20072)
