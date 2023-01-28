@@ -1,0 +1,76 @@
+{{!
+    This file is part of Moodle - http://moodle.org/
+
+    Moodle is free software: you can redistribute it and/or modify
+    it under the terms of the GNU General Public License as published by
+    the Free Software Foundation, either version 3 of the License, or
+    (at your option) any later version.
+
+    Moodle is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with Moodle.  If not, see <http://www.gnu.org/licenses/>.
+}}
+{{!
+    Page footer.
+}}
+<footer  id="page-footer" class="text-center text-white bg-primary">
+  <!-- Section: Social media -->
+  <section class="d-flex justify-content-center justify-content-lg-between p-4 border-bottom">
+    <!-- Left -->
+    <div class="me-5 d-none d-lg-block">
+      <span>Get connected with us on social networks:</span>
+    </div>
+    <!-- Left -->
+
+    <!-- Right -->
+    <div>
+    {{{ output.social_icons }}}
+    </div>
+    <!-- Right -->
+  </section>
+  <!-- Section: Social media -->
+
+  <!-- Section: Links  -->
+  <section class="">
+    <div class="container text-center text-md-start mt-5">
+      <!-- Grid row -->
+      <div class="row mt-3">
+        <!-- Grid column -->
+        <div class="col-md-7 col-lg-8 col-xl-8 mx-auto mb-4">
+          <!-- Content -->
+          <h6 class="text-uppercase fw-bold mb-4">
+            <i class="fas fa-gem me-3"></i>{{#output.brandorganization_footer}}<h3>{{output.brandorganization_footer}}</h3>{{/output.brandorganization_footer}}
+          </h6>
+          <p>
+            {{{ output.footnote }}}
+          </p>
+        </div>
+        <div class="col-md-5 col-lg-4 col-xl-4 mx-auto mb-md-0 mb-4">
+          <!-- Links -->
+          <h6 class="text-uppercase fw-bold mb-4">Contact</h6>
+          <p>{{#output.brandwebsite_footer}}<i class="fa fa-globe"></i>  {{output.brandwebsite_footer}}{{/output.brandwebsite_footer}}</p>
+          <p>
+              {{#output.brandemail_footer}}<i class="fa fa-envelope"> </i>{{output.brandemail_footer}} {{/output.brandemail_footer}}
+          </p>
+          <p>{{#output.brandphone_footer}}<i class="fa fa-mobile-phone"> </i> {{output.brandphone_footer}} {{/output.brandphone_footer}}</p>
+        </div>
+        <!-- Grid column -->
+      </div>
+      <!-- Grid row -->
+    </div>
+  </section>
+  <!-- Section: Links  -->
+  {{{ output.standard_footer_html }}}
+  {{{ output.standard_end_of_body_html }}}
+  <!-- Copyright -->
+  <div class="text-center p-4" style="background-color: rgba(0, 0, 0, 0.05);">
+    © 2022 Copyright:
+    <a class="text-reset fw-bold" href="https://debonairtraining.com/">Debonair Training Ltd</a>
+  </div>
+  <!-- Copyright -->
+
+</footer>

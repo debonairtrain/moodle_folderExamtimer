@@ -1,0 +1,67 @@
+{{#hasmarkettiles}}
+<div class="markettiles">
+    <div class="container-fluid">
+    <div class="row">
+<h1 class="col-md-12 text-center text-primary">Courses you might be interested in</h1>
+        {{#markettiles}}
+        {{#hastile}}
+        <div class="col-md-4 text-center">
+        <div class="marketing card">
+
+            <div class="card-body market-tile">
+            {{#tileimage}}
+            <img class="marketingimg" src="{{{tileimage}}}" width="100%">
+            {{/tileimage}}
+            <div class="feature bg-primary bg-gradient text-white mb-4 mt-n4"><i class="fa fa-{{marketingicon}}"></i></div>
+                <div class="marketcontent card-text text-left">
+                <h3>{{{title}}}</H3>
+                <p>{{{content}}}
+                  {{{cate_title}}}
+                  <p>
+                </div>
+                {{#hasbutton}}
+                <div class="marketbtn">
+                    {{{button}}}
+                </div>
+                {{/hasbutton}}
+            </div>
+        </div>
+        </div>
+        {{/hastile}}
+        {{/markettiles}}
+
+    </div>
+    </div>
+</div>
+{{/hasmarkettiles}}
+
+{{#hascategory}}
+<div class="markettiles">
+    <div class="container-fluid">
+    <div class="row">
+
+        {{#categorytiles}}
+        {{#hastile}}
+        <div class="col-md-4 text-center">
+        <div class="marketing card">
+
+            <div class="card-body market-tile">
+            {{#tileimage}}
+            <img class="marketingimg" src="{{{cate_image}}}" width="100%">
+            {{/tileimage}}
+            <div class="feature bg-primary bg-gradient text-white mb-4 mt-n4"><i class="fa fa-{{marketingicon}}"></i></div>
+                <div class="marketcontent card-text text-left">
+                <h3>{{{cate_title}}}</H3>
+                <p>{{{cate_content}}}<p>
+                </div>
+              {{{cate_button}}}
+            </div>
+        </div>
+        </div>
+        {{/hastile}}
+        {{/categorytiles}}
+
+    </div>
+    </div>
+</div>
+{{/hascategory}}

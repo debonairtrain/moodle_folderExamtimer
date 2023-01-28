@@ -1,0 +1,43 @@
+{{#promatedcourse}}
+<div class="custom-courses-list" class="Promoted-Courses"  style="border:2px;">
+    <div class="container-fluid">
+      <ol class="carousel-indicators">
+        <li data-target="#promatedcourse-carousel" data-slide-to="0" class="active"></li>
+        <li data-target="#promatedcourse-carousel" data-slide-to="1"></li>
+        <li data-target="#promatedcourse-carousel" data-slide-to="2"></li>
+        <li data-target="#promatedcourse-carousel" data-slide-to="2"></li>
+      </ol>
+        <div class="titlebar with-felements">
+            <h2> {{promotedtitle}} </h2>
+            <div id="promatedcourse-carousel" class="carousel slide" data-ride="carousel">
+                <div class="carousel-inner">
+                    {{#courses}}
+                    <div class="carousel-item" style="border:2px;">
+                        {{#.}}
+                        <div class="col-md-3 col-sm-6 col-12">
+                            <div class="course-box">
+                              <div class="" style="width:300px">
+                                  <a href="{{courseurl}}"><img src="{{imgurl}}" style="width:300px; height:150px;" alt=""></a>
+                              </div>
+                              <div class="info">
+                                    <h5><a href="{{courseurl}}"> {{coursename}} </a></h5>
+                                </div>
+                            </div>
+                        </div>
+                        {{/.}}
+                    </div>
+                    {{/courses}}
+                </div>
+                <a class="carousel-control carousel-control-prev" href="#promatedcourse-carousel" role="button" data-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Previous</span>
+                </a>
+                <a class="carousel-control carousel-control-next" href="#promatedcourse-carousel" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+{{/promatedcourse}}

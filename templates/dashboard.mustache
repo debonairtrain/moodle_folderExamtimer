@@ -1,0 +1,72 @@
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.js"></script>
+<script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+<link rel="stylesheet" href="theme/competency/styles/only.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+<div class="row">
+    <div class="col-md-3">
+      <div class="col-md-12">
+        <h1 style="text-align:center;">Best</h1>
+        <br>
+        <h3 class="text-center">{{{coursename2}}}</h3>
+      </div>
+      <div class="col-md-12">
+        <div class="progress" style="height:50px">
+          <div class="progress-bar progress-bar-success" role="progressbar" style="width:{{{final}}}%">
+             {{{final}}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-3">
+      <div class="col-md-12">
+        <h1  style="text-align:center;">Worst</h1>
+        <br>
+        <h3 class="text-center">{{{coursename}}}</h3>
+      </div>
+      <div class="col-md-12">
+        <div class="progress" style="height:50px">
+          <div class="progress-bar progress-bar-danger" role="progressbar" style="width:{{{final_grade}}}%">
+             {{{final_grade}}}
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6">
+      <div class="col-md-12">
+        <h1 class="text-center">Competency Path</h1>
+      </div>
+      <div class="col-md-12">
+        
+<canvas id="competency" style="width:100%;max-width:600px; text-align:left;"></canvas>
+      </div>
+    </div>
+</div>
+  <hr>
+<script>
+
+var xValue = ['{{{comp3}}}','{{{comp2}}}','{{{comp1}}}'];
+var yValue = [ {{{competence1}}},{{{competence2}}},{{{competence3}}}];
+var barColors = [
+  "#b91d47",
+  "#00aba9",
+  "green"
+];
+
+new Chart("competency", {
+  type: "pie",
+  data: {
+    labels: xValue,
+    datasets: [{
+      backgroundColor: barColors,
+      data: yValue
+    }]
+  },
+  options: {
+    title: {
+      display: true,
+      text: "{{{courses_com}}}"
+    }
+  }
+});
+</script>
